@@ -145,6 +145,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .lx-tipo.pre { color: var(--color-warn); border-color: currentColor; }
   .lx-tipo.adm { color: var(--color-fg-muted); }
   .lx-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
+  .lx-credito { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); text-align: center; }
   .lx-sources { display: flex; flex-direction: column; gap: var(--cds-gap-xs); padding: 0; margin: 0; list-style: none; font-size: var(--cds-font-size-caption); }
   .lx-sources a { color: var(--color-fg-muted); }
 
@@ -465,6 +466,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       </ul>
     </div>
   </section>
+  <footer class="lx-credito" id="credito">© 2026 Gonzalo Villarreal Farah · Hecho con Claude de Anthropic</footer>
 </div>
 
 
@@ -506,6 +508,7 @@ window.dash = (() => {
 })();
 </script>
 
+<script>window.AFP_AUDIO = {"1cd7d86d": "audio/1cd7d86d.m4a", "31541010": "audio/31541010.m4a", "387c768a": "audio/387c768a.m4a", "3b0cea14": "audio/3b0cea14.m4a", "3f9fb190": "audio/3f9fb190.m4a", "6c80334a": "audio/6c80334a.m4a", "7b76ec81": "audio/7b76ec81.m4a", "89d9c7d3": "audio/89d9c7d3.m4a", "8c4a5444": "audio/8c4a5444.m4a", "8f5976d9": "audio/8f5976d9.m4a", "9bdddad8": "audio/9bdddad8.m4a", "a63dcf82": "audio/a63dcf82.m4a", "b9bc74cc": "audio/b9bc74cc.m4a", "c8894a97": "audio/c8894a97.m4a", "f31149ae": "audio/f31149ae.m4a", "f7bc6446": "audio/f7bc6446.m4a", "fa6b4d8b": "audio/fa6b4d8b.m4a"};</script>
 <script>
 (() => {
   // ---------- formato ----------
@@ -661,12 +664,16 @@ window.dash = (() => {
         activo = btn;
         marcar(btn, true);
         const fin = () => { if (reproductor === a) reproductor = null; if (activo === btn) { marcar(btn, false); activo = null; } };
+        const respaldo = () => { const era = activo === btn; fin(); if (era) sintetizar(texto, btn); };
         a.addEventListener('ended', fin);
-        a.addEventListener('error', fin);
+        a.addEventListener('error', respaldo);
         const pr = a.play();
-        if (pr && pr.catch) pr.catch(fin);
+        if (pr && pr.catch) pr.catch(respaldo);
         return;
       }
+      sintetizar(texto, btn);
+    };
+    const sintetizar = (texto, btn) => {
       if (!ok) return;
       if (!elegida) pick();
       const partes = trozos(texto);
