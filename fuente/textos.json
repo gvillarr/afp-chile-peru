@@ -245,6 +245,132 @@
 "grupo": "cobertura",
 "orden": 41,
 "texto": "En Perú, además, parte de los trabajadores formales cotiza en la ONP, el sistema público, y no aparece en estas cifras."
+},
+{
+"id": "t42",
+"grupo": "res_resumen",
+"orden": 42,
+"texto": "Estás en Resumen. Aquí ves las cifras más importantes de las AFP de Chile y Perú, descontada la inflación de cada país."
+},
+{
+"id": "t43",
+"grupo": "res_resumen",
+"orden": 43,
+"texto": "En los 12 meses a septiembre de 2026, el Fondo 3 de Perú ganó 25,99 % real, mientras el Fondo E de Chile perdió 9,38 %. El mejor fondo de 2025 fue el Fondo 3 de Perú, con 16,46 %, y el mejor promedio histórico es el del Fondo A de Chile, con 5,90 % al año desde 2002."
+},
+{
+"id": "t44",
+"grupo": "res_resumen",
+"orden": 44,
+"texto": "El gráfico de los nueve fondos los agrupa por perfil de riesgo, para comparar cada fondo con su par del otro país en 12 meses, en 2025 o en el promedio histórico."
+},
+{
+"id": "t45",
+"grupo": "res_resumen",
+"orden": 45,
+"texto": "Más abajo están la tabla de pares, con la diferencia entre países, y el tamaño de cada sistema: Chile administra cerca de 235 mil millones de dólares y Perú cerca de 37 mil millones."
+},
+{
+"id": "t46",
+"grupo": "res_tablas",
+"orden": 46,
+"texto": "Estás en Rentabilidad. Aquí están las tablas completas de cada país, ordenadas del fondo más riesgoso al más conservador."
+},
+{
+"id": "t47",
+"grupo": "res_tablas",
+"orden": 47,
+"texto": "En Chile, en los 12 meses a septiembre de 2026, ganaron los fondos A y B, con 9,21 % y 5,96 %, y perdieron los fondos C, D y E. El que más perdió fue el E, con 9,38 %."
+},
+{
+"id": "t48",
+"grupo": "res_tablas",
+"orden": 48,
+"texto": "En Perú todos los fondos ganaron en 2025. En los últimos 12 meses lidera el Fondo 3, con cerca de 26 %, mientras el Fondo 0 quedó cerca de cero por la mayor inflación."
+},
+{
+"id": "t49",
+"grupo": "res_tablas",
+"orden": 49,
+"texto": "Cada fila indica su fondo equivalente en el otro país, y al pie de cada tabla hay notas sobre de dónde salen las cifras."
+},
+{
+"id": "t50",
+"grupo": "res_historico",
+"orden": 50,
+"texto": "Estás en Histórico. Aquí se mira el largo plazo."
+},
+{
+"id": "t51",
+"grupo": "res_historico",
+"orden": 51,
+"texto": "Desde 2002, los fondos chilenos muestran un premio por riesgo ordenado: desde 5,90 % real al año en el Fondo A hasta 2,57 % en el Fondo E. En Perú, el Fondo 2 rinde 4,83 % real al año desde 2005."
+},
+{
+"id": "t52",
+"grupo": "res_historico",
+"orden": 52,
+"texto": "El gráfico año a año del Fondo 2 de Perú muestra cinco años con pérdidas desde 2006, con las mayores caídas en 2008 y 2022."
+},
+{
+"id": "t53",
+"grupo": "res_fondos",
+"orden": 53,
+"texto": "Estás en Tipos de fondo. Aquí ves qué fondo de un país se parece a cuál del otro, según cuánto pueden invertir en acciones."
+},
+{
+"id": "t54",
+"grupo": "res_fondos",
+"orden": 54,
+"texto": "El Fondo A chileno se parece al 3 peruano, el C al 2 y el D al 1. El Fondo B chileno no tiene par en Perú, y el Fondo 0 peruano, de protección de capital, no tiene par en Chile."
+},
+{
+"id": "t55",
+"grupo": "res_fondos",
+"orden": 55,
+"texto": "También se explican las diferencias y similitudes entre ambos sistemas, incluido el cambio de Chile a fondos generacionales desde abril de 2027."
+},
+{
+"id": "t56",
+"grupo": "res_legal",
+"orden": 56,
+"texto": "Estás en Comparación legal. Primero ves cuánta gente cotiza en una AFP: en Chile, cerca de 56 % de la fuerza de trabajo; en Perú, cerca de 23 %, por la alta informalidad."
+},
+{
+"id": "t57",
+"grupo": "res_legal",
+"orden": 57,
+"texto": "Luego, 20 reglas en cinco grupos comparan los dos sistemas: afiliación, aportes, fondos, retiros y reformas. Cada regla tiene una etiqueta que indica cuál favorece más al afiliado."
+},
+{
+"id": "t58",
+"grupo": "res_legal",
+"orden": 58,
+"texto": "En resumen, Perú da más libertad de elección y Chile, más aportes y cobertura."
+},
+{
+"id": "t59",
+"grupo": "res_analisis",
+"orden": 59,
+"texto": "Estás en Análisis. Aquí está la lectura completa: lo que pasó en 2025, cuando todos los fondos ganaron; lo que pasó en 2026, cuando los países se separaron; el largo plazo, y las advertencias para comparar."
+},
+{
+"id": "t60",
+"grupo": "res_analisis",
+"orden": 60,
+"texto": "También se resume qué se corrigió del archivo original. Puedes escuchar cada bloque por separado o todo seguido."
+},
+{
+"id": "t61",
+"grupo": "res_fuentes",
+"orden": 61,
+"texto": "Estás en Fuentes. Aquí están las instituciones y publicaciones de donde salen todas las cifras, separadas por país: la Superintendencia de Pensiones y el INE de Chile; la SBS, el BCRP y el INEI de Perú, y notas de prensa."
+},
+{
+"id": "t62",
+"grupo": "res_fuentes",
+"orden": 62,
+"texto": "Al final se explican los cálculos propios, como el paso de rentabilidad nominal a real."
 }
 ]
 }

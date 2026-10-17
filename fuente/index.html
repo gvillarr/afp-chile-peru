@@ -793,7 +793,7 @@
   document.querySelectorAll('.lx-oir').forEach((b) => {
     b.innerHTML = ICONS;
     voz.marcar(b, false);
-    if (b.dataset.leer === 'resumen') b.dataset.etiqueta = 'Escuchar resumen';
+    if (b.dataset.leer === 'resumen') { b.dataset.etiqueta = 'Resumen de esta pestaña'; b.setAttribute('aria-label', 'Escuchar el resumen de la pestaña abierta'); }
     voz.marcar(b, false);
     if (!voz.ok && !window.AFP_AUDIO) { b.disabled = true; b.title = 'Este navegador no permite la lectura en voz alta.'; }
   });
@@ -815,11 +815,8 @@
   const textoPara = (b) => {
     const partes = [];
     if (b.dataset.leer === 'resumen') {
-      partes.push(document.querySelector('.lx-head h1').textContent + '.');
-      partes.push(document.getElementById('takeaway').textContent);
-      document.querySelectorAll('#kpis .lx-kpi').forEach((k) => {
-        partes.push(k.querySelector('.lx-kpi-l').textContent + ': ' + k.querySelector('.lx-kpi-v').textContent + ', ' + k.querySelector('.lx-kpi-s').textContent + '.');
-      });
+      // resumen general de la pestaña que se está mirando
+      partes.push(...parrafos('res_' + actual));
     }
     if (b.dataset.grafico && EXPLICAR[b.dataset.grafico]) partes.push(EXPLICAR[b.dataset.grafico]());
     if (b.dataset.legal) partes.push(leerLegal(b.dataset.legal));
@@ -838,15 +835,21 @@
   window.AFP_TEXTOS = () => {
     const out = new Map();
     const antes = modo;
+    const pagAntes = actual;
     document.querySelectorAll('.lx-oir').forEach((b) => {
       const modos = b.dataset.grafico === 'cmp' ? Object.keys(MODOS) : [null];
+      const paginas = b.dataset.leer === 'resumen' ? pages.map((pg) => pg.id) : [null];
       modos.forEach((md) => {
-        if (md) modo = md;
-        const t = voz.limpio(textoPara(b));
-        if (t) out.set(voz.huella(t), t);
+        paginas.forEach((pg) => {
+          if (md) modo = md;
+          if (pg) actual = pg;
+          const t = voz.limpio(textoPara(b));
+          if (t) out.set(voz.huella(t), t);
+        });
       });
     });
     modo = antes;
+    actual = pagAntes;
     return [...out].map(([huella, texto]) => ({ huella, texto }));
   };
   document.getElementById('lx').addEventListener('click', (e) => {
