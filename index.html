@@ -583,6 +583,8 @@ window.dash = (() => {
       if (!/^es/i.test(v.lang)) return -1000;
       let s = 0;
       if (JUGUETE.test(v.name)) s -= 500;
+      // voz elegida por el director: Marisol (mejorada); si el equipo no la tiene, sigue el orden de calidad
+      if (/marisol/i.test(v.name)) s += /(enhanced|mejorad)/i.test(v.name) ? 320 : 300;
       if (/premium/i.test(v.name)) s += 60;
       if (/(enhanced|mejorad)/i.test(v.name)) s += 45;
       if (/(natural|neural|online)/i.test(v.name)) s += 55;
