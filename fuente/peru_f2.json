@@ -1,0 +1,109 @@
+{
+"rows": [
+{
+"anio": 2006,
+"r12m_sep": 21.21,
+"fuente": "BCRP"
+},
+{
+"anio": 2007,
+"r12m_sep": 32.88,
+"fuente": "BCRP"
+},
+{
+"anio": 2008,
+"r12m_sep": -16.7,
+"fuente": "BCRP"
+},
+{
+"anio": 2009,
+"r12m_sep": 11.26,
+"fuente": "BCRP"
+},
+{
+"anio": 2010,
+"r12m_sep": 11.5,
+"fuente": "BCRP"
+},
+{
+"anio": 2011,
+"r12m_sep": -1.65,
+"fuente": "BCRP"
+},
+{
+"anio": 2012,
+"r12m_sep": 3.87,
+"fuente": "BCRP"
+},
+{
+"anio": 2013,
+"r12m_sep": -2.13,
+"fuente": "BCRP"
+},
+{
+"anio": 2014,
+"r12m_sep": 6.61,
+"fuente": "BCRP"
+},
+{
+"anio": 2015,
+"r12m_sep": -2.78,
+"fuente": "BCRP"
+},
+{
+"anio": 2016,
+"r12m_sep": 12.03,
+"fuente": "BCRP"
+},
+{
+"anio": 2017,
+"r12m_sep": 6.18,
+"fuente": "BCRP"
+},
+{
+"anio": 2018,
+"r12m_sep": 3.3,
+"fuente": "BCRP"
+},
+{
+"anio": 2019,
+"r12m_sep": 5.18,
+"fuente": "BCRP"
+},
+{
+"anio": 2020,
+"r12m_sep": 2.6,
+"fuente": "BCRP"
+},
+{
+"anio": 2021,
+"r12m_sep": 6.75,
+"fuente": "BCRP"
+},
+{
+"anio": 2022,
+"r12m_sep": -16.22,
+"fuente": "BCRP"
+},
+{
+"anio": 2023,
+"r12m_sep": 3.06,
+"fuente": "BCRP"
+},
+{
+"anio": 2024,
+"r12m_sep": 7.45,
+"fuente": "BCRP"
+},
+{
+"anio": 2025,
+"r12m_sep": 5.53,
+"fuente": "BCRP"
+},
+{
+"anio": 2026,
+"r12m_sep": 12.6,
+"fuente": "Prensa (BioBioChile, datos SBS)"
+}
+]
+}

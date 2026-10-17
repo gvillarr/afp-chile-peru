@@ -1,0 +1,28 @@
+{
+"rows": [
+{
+"pais": "Chile",
+"poblacion": 20150948,
+"fuerza_trabajo": 10263145,
+"afiliados": 12204541,
+"cotizantes": 5775070,
+"pct_cot_ft": 56.3,
+"pct_cot_pob": 28.7,
+"pct_cot_afi": 47.3,
+"informalidad": 26.3,
+"corte": "Cotizantes junio 2026, afiliados julio 2026, fuerza de trabajo junio-agosto 2026, población proyectada 2026"
+},
+{
+"pais": "Perú",
+"poblacion": 34157732,
+"fuerza_trabajo": 18481285,
+"afiliados": 10552814,
+"cotizantes": 4170090,
+"pct_cot_ft": 22.6,
+"pct_cot_pob": 12.2,
+"pct_cot_afi": 39.5,
+"informalidad": 70.9,
+"corte": "Cotizantes marzo 2026, afiliados junio 2026, población censo 2025, informalidad 2024"
+}
+]
+}

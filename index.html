@@ -146,6 +146,37 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .lx-tipo.adm { color: var(--color-fg-muted); }
   .lx-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
   .lx-credito { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); text-align: center; }
+  .lx-cob { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+  .lx-cob-m { display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+  .lx-cob-l { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-cob-r { display: grid; grid-template-columns: 3.5rem 1fr 3.75rem; gap: var(--cds-gap-sm); align-items: center; font-size: var(--cds-font-size-caption); }
+  .lx-cob-track { height: .75rem; border-radius: 999px; background: var(--cds-chart-grid); overflow: hidden; }
+  .lx-cob-fill { height: 100%; border-radius: 999px; }
+  .lx-cob-v { text-align: right; font-variant-numeric: tabular-nums; font-weight: var(--cds-font-weight-medium); }
+  .lx-legalbox { overflow-x: auto; margin-inline: calc(var(--cds-pad-lg) * -1); padding-inline: var(--cds-pad-lg); }
+  .lx-legal { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); line-height: 1.45; table-layout: fixed; }
+  .lx-legal th { text-align: left; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+  .lx-legal th:nth-child(1) { width: 20%; } .lx-legal th:nth-child(2), .lx-legal th:nth-child(3) { width: 33%; } .lx-legal th:nth-child(4) { width: 14%; }
+  .lx-legal td { padding: var(--cds-pad-md) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .lx-legal tbody tr:last-child td { border-bottom: 0; }
+  .lx-legal tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--color-panel) 92%, var(--color-fg) 8%); }
+  .lx-legal td.lx-tema { font-weight: var(--cds-font-weight-medium); }
+  .lx-legal td.lx-fav-td.peru { box-shadow: inset 3px 0 0 var(--lx-peru); }
+  .lx-favs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
+  .lx-fav { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--cds-font-size-caption); padding: 2px var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); white-space: nowrap; }
+  .lx-fav::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-fg-muted); }
+  .lx-fav.peru::before { background: var(--lx-peru); } .lx-fav.chile::before { background: var(--lx-chile); }
+  .lx-fav.similar::before { background: var(--color-ok); } .lx-fav.depende::before { background: var(--color-warn); } .lx-fav.distinto::before { background: var(--cds-chart-axis); }
+  @media (max-width: 46rem) {
+    .lx-legalbox { overflow: visible; margin-inline: 0; padding-inline: 0; }
+    .lx-legal, .lx-legal tbody, .lx-legal tr, .lx-legal td { display: block; width: 100%; }
+    .lx-legal thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .lx-legal tr { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); margin-bottom: var(--cds-gap-sm); }
+    .lx-legal tbody tr:nth-child(even) td { background: none; }
+    .lx-legal td { border: 0; padding: var(--cds-pad-xs) 0; }
+    .lx-legal td.lx-tema { font-size: var(--cds-font-size-heading); padding-bottom: var(--cds-pad-sm); }
+    .lx-legal td[data-label]::before { content: attr(data-label); display: block; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); margin-bottom: 2px; }
+  }
   .lx-sources { display: flex; flex-direction: column; gap: var(--cds-gap-xs); padding: 0; margin: 0; list-style: none; font-size: var(--cds-font-size-caption); }
   .lx-sources a { color: var(--color-fg-muted); }
 
@@ -174,6 +205,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     <button class="lx-tab" role="tab" id="tab-tablas" data-page="tablas" aria-selected="false">Rentabilidad</button>
     <button class="lx-tab" role="tab" id="tab-historico" data-page="historico" aria-selected="false">Histórico</button>
     <button class="lx-tab" role="tab" id="tab-fondos" data-page="fondos" aria-selected="false">Tipos de fondo</button>
+    <button class="lx-tab" role="tab" id="tab-legal" data-page="legal" aria-selected="false">Comparación legal</button>
     <button class="lx-tab" role="tab" id="tab-analisis" data-page="analisis" aria-selected="false">Análisis</button>
     <button class="lx-tab" role="tab" id="tab-fuentes" data-page="fuentes" aria-selected="false">Fuentes</button>
   </nav>
@@ -390,6 +422,135 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     </div>
   </section>
 
+  <!-- COMPARACIÓN LEGAL -->
+  <section class="lx-page" id="legal" role="tabpanel" aria-labelledby="tab-legal" hidden>
+    <div class="lx-card" id="cobertura">
+      <div class="lx-card-head">
+        <div>
+          <h2>¿Cuánta gente cotiza en una AFP?</h2>
+          <p class="lx-note">Cotizantes son quienes aportaron en el mes. Afiliados son todos los que tienen cuenta, aporten o no.</p>
+        </div>
+        <button class="lx-oir" type="button" data-grafico="cobertura" data-grupos="cobertura" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span></div>
+      <div class="lx-cob" id="cob-chart" data-source="cobertura" style="min-height: 14rem"></div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-cobertura" data-source="cobertura" data-row-key="pais">
+          <thead><tr>
+            <th data-field="pais">País</th>
+            <th data-field="poblacion">Población</th>
+            <th data-field="fuerza_trabajo">Fuerza de trabajo</th>
+            <th data-field="afiliados">Afiliados a AFP</th>
+            <th data-field="cotizantes">Cotizantes</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lx-text lx-small" data-source="textos" data-grupo="cobertura"></div>
+      <p class="lx-note" id="cob-cortes"></p>
+    </div>
+
+    <div class="lx-card" id="legal-resumen">
+      <div class="lx-card-head">
+        <div>
+          <h2>Comparación legal en resumen</h2>
+          <p class="lx-note">Qué reglas favorecen más al afiliado en cada país.</p>
+        </div>
+        <button class="lx-oir" type="button" data-grupos="legal" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-text" data-source="textos" data-grupo="legal"></div>
+      <div class="lx-favs" aria-label="Significado de las etiquetas">
+        <span class="lx-fav peru">Perú</span><span class="lx-fav chile">Chile</span><span class="lx-fav similar">Similar</span><span class="lx-fav depende">Depende</span><span class="lx-fav distinto">Distinto</span>
+      </div>
+    </div>
+
+    <div class="lx-card" id="legal-afiliacion">
+      <div class="lx-card-head">
+        <div><h2>Afiliación</h2></div>
+        <button class="lx-oir" type="button" data-legal="afiliacion" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-afiliacion" data-source="legal" data-row-key="tema" data-grupo-legal="afiliacion">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-aportes">
+      <div class="lx-card-head">
+        <div><h2>Aportes y costos</h2></div>
+        <button class="lx-oir" type="button" data-legal="aportes" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-aportes" data-source="legal" data-row-key="tema" data-grupo-legal="aportes">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-fondos">
+      <div class="lx-card-head">
+        <div><h2>Fondos e inversión</h2></div>
+        <button class="lx-oir" type="button" data-legal="fondos" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-fondos" data-source="legal" data-row-key="tema" data-grupo-legal="fondos">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-retiros">
+      <div class="lx-card-head">
+        <div><h2>Retiros y pensión</h2></div>
+        <button class="lx-oir" type="button" data-legal="retiros" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-retiros" data-source="legal" data-row-key="tema" data-grupo-legal="retiros">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-reformas">
+      <div class="lx-card-head">
+        <div><h2>Reformas recientes</h2></div>
+        <button class="lx-oir" type="button" data-legal="reformas" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-reformas" data-source="legal" data-row-key="tema" data-grupo-legal="reformas">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <!-- ANÁLISIS -->
   <section class="lx-page" id="analisis" role="tabpanel" aria-labelledby="tab-analisis" hidden>
     <div class="lx-card-head">
@@ -455,6 +616,24 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         </table>
       </div>
     </div>
+    <div class="lx-card" id="fuentes-legal">
+      <h2>Normas, reformas y cobertura</h2>
+      <ul class="lx-sources">
+        <li><a href="https://busquedas.elperuano.pe/dispositivo/NL/2328060-1" target="_blank" rel="noopener">El Peruano · Ley de Modernización del Sistema Previsional Peruano</a></li>
+        <li><a href="https://larepublica.pe/economia/2026/05/01/onp-y-afp-afiliados-podran-trasladarse-entre-ambos-sistemas-desde-setiembre-tras-reglamento-de-la-reforma-previsional-hnews-27247" target="_blank" rel="noopener">La República · traslados entre la ONP y las AFP</a></li>
+        <li><a href="https://www.peru-retail.com/aprueban-reglamento-de-la-reforma-de-pensiones-que-cambios-hay-y-desde-cuando-aplican/" target="_blank" rel="noopener">Perú Retail · reglamento de la reforma peruana</a></li>
+        <li><a href="https://sueldojusto.pe/blog/comisiones-afp/" target="_blank" rel="noopener">Sueldo Justo · comisiones y prima de seguro en Perú</a></li>
+        <li><a href="https://www.bcrp.gob.pe/docs/Publicaciones/Reporte-Estabilidad-Financiera/2018/Noviembre/ref-noviembre-2018-recuadro-5.pdf" target="_blank" rel="noopener">BCRP · rentabilidad mínima y encaje</a></li>
+        <li><a href="https://intranet2.sbs.gob.pe/estadistica/financiera/2026/Junio/SP-0003-jn2026.PDF" target="_blank" rel="noopener">SBS · afiliados y cotizantes de Perú</a></li>
+        <li><a href="https://www.gob.pe/institucion/inei/noticias/1399446-inei-poblacion-del-peru-totalizo-34-millones-157-mil-732-habitantes-al-2025" target="_blank" rel="noopener">INEI · población del Perú, censo</a></li>
+        <li><a href="https://previsionsocial.gob.cl/wp-content/uploads/2025/08/Nota-Tecnica-Reforma-de-Pensiones-Ley-N°21.735.pdf" target="_blank" rel="noopener">Subsecretaría de Previsión Social · nota técnica de la reforma chilena</a></li>
+        <li><a href="https://www.fundssociety.com/es/noticias/mercados/el-fin-de-una-era-chile-se-despide-de-los-multifondos/" target="_blank" rel="noopener">Funds Society · fin de los multifondos en Chile</a></li>
+        <li><a href="https://www.latercera.com/pulso/noticia/la-mitad-de-los-trabajadores-formales-en-chile-gana-mas-de-1-millon-al-mes-segun-datos-de-las-afp/" target="_blank" rel="noopener">La Tercera · cotizantes de las AFP chilenas</a></li>
+        <li><a href="https://www.rankia.cl/blog/fondos-pensiones-afp/3111937-mejores-afps-chile" target="_blank" rel="noopener">Rankia Chile · afiliados de las AFP chilenas</a></li>
+        <li><a href="https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/nacional/ene-nacional-335.pdf" target="_blank" rel="noopener">INE Chile · fuerza de trabajo e informalidad</a></li>
+        <li><a href="https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2026/01/28/el-ine-proyecta-que-en-2026-la-poblaci%C3%B3n-de-chile-alcanzar%C3%A1-las-20.150.948-personas-llegando-a-su-nivel-m%C3%A1ximo-a-mediados-de-la-pr%C3%B3xima-d%C3%A9cada" target="_blank" rel="noopener">INE Chile · población proyectada</a></li>
+      </ul>
+    </div>
     <div class="lx-card" id="fuentes-calculos">
       <h2>Cálculos propios</h2>
       <ul class="lx-list">
@@ -477,7 +656,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
 <script>
 window.dash = (() => {
-  const RAW = {"chile": [{"fondo": "A", "perfil": "Más riesgoso", "r2025": 14.89, "ene_sep_2026": 8.61, "r12m_sep2026": 9.21, "prom_2002_2026": 5.9, "prom_1981_2026": null, "par_peru": "Fondo 3"}, {"fondo": "B", "perfil": "Riesgoso", "r2025": 13.14, "ene_sep_2026": 5.26, "r12m_sep2026": 5.96, "prom_2002_2026": 5.04, "prom_1981_2026": null, "par_peru": "Sin par (entre 2 y 3)"}, {"fondo": "C", "perfil": "Intermedio", "r2025": 12.18, "ene_sep_2026": -1.5, "r12m_sep2026": -0.35, "prom_2002_2026": 4.15, "prom_1981_2026": 7.07, "par_peru": "Fondo 2"}, {"fondo": "D", "perfil": "Conservador", "r2025": 10.47, "ene_sep_2026": -6.38, "r12m_sep2026": -4.74, "prom_2002_2026": 3.27, "prom_1981_2026": null, "par_peru": "Fondo 1"}, {"fondo": "E", "perfil": "Más conservador", "r2025": 8.06, "ene_sep_2026": -10.39, "r12m_sep2026": -9.38, "prom_2002_2026": 2.57, "prom_1981_2026": null, "par_peru": "Fondo 1 o 0"}], "peru": [{"fondo": "3", "perfil": "Crecimiento", "r2025": 16.46, "r12m_ago2026": 29.86, "r12m_sep2026": 25.99, "prom_hist": 4.43, "hist_desde": "2005", "hist_base": "AFP Integra", "par_chile": "Fondo A"}, {"fondo": "2", "perfil": "Mixto", "r2025": 9.28, "r12m_ago2026": 15.04, "r12m_sep2026": 12.6, "prom_hist": 4.83, "hist_desde": "", "hist_base": "Sistema", "par_chile": "Fondo C"}, {"fondo": "1", "perfil": "Conservador", "r2025": 8.36, "r12m_ago2026": 5.45, "r12m_sep2026": 2.83, "prom_hist": 2.69, "hist_desde": "2005", "hist_base": "AFP Integra", "par_chile": "Fondo D"}, {"fondo": "0", "perfil": "Protección de capital", "r2025": 3.14, "r12m_ago2026": 0.04, "r12m_sep2026": -0.12, "prom_hist": 0.96, "hist_desde": "2016", "hist_base": "AFP Integra", "par_chile": "Sin par (cerca del E)"}], "peru_f2": [{"anio": 2006, "r12m_sep": 21.21, "fuente": "BCRP"}, {"anio": 2007, "r12m_sep": 32.88, "fuente": "BCRP"}, {"anio": 2008, "r12m_sep": -16.7, "fuente": "BCRP"}, {"anio": 2009, "r12m_sep": 11.26, "fuente": "BCRP"}, {"anio": 2010, "r12m_sep": 11.5, "fuente": "BCRP"}, {"anio": 2011, "r12m_sep": -1.65, "fuente": "BCRP"}, {"anio": 2012, "r12m_sep": 3.87, "fuente": "BCRP"}, {"anio": 2013, "r12m_sep": -2.13, "fuente": "BCRP"}, {"anio": 2014, "r12m_sep": 6.61, "fuente": "BCRP"}, {"anio": 2015, "r12m_sep": -2.78, "fuente": "BCRP"}, {"anio": 2016, "r12m_sep": 12.03, "fuente": "BCRP"}, {"anio": 2017, "r12m_sep": 6.18, "fuente": "BCRP"}, {"anio": 2018, "r12m_sep": 3.3, "fuente": "BCRP"}, {"anio": 2019, "r12m_sep": 5.18, "fuente": "BCRP"}, {"anio": 2020, "r12m_sep": 2.6, "fuente": "BCRP"}, {"anio": 2021, "r12m_sep": 6.75, "fuente": "BCRP"}, {"anio": 2022, "r12m_sep": -16.22, "fuente": "BCRP"}, {"anio": 2023, "r12m_sep": 3.06, "fuente": "BCRP"}, {"anio": 2024, "r12m_sep": 7.45, "fuente": "BCRP"}, {"anio": 2025, "r12m_sep": 5.53, "fuente": "BCRP"}, {"anio": 2026, "r12m_sep": 12.6, "fuente": "Prensa (BioBioChile, datos SBS)"}], "equivalencias": [{"orden": 1, "perfil": "Agresivo", "chile": "A", "chile_max_rv": 80, "peru": "3", "peru_max_rv": 80}, {"orden": 2, "perfil": "Moderado-agresivo", "chile": "B", "chile_max_rv": 60, "peru": "—", "peru_max_rv": null}, {"orden": 3, "perfil": "Balanceado", "chile": "C", "chile_max_rv": 40, "peru": "2", "peru_max_rv": 45}, {"orden": 4, "perfil": "Conservador", "chile": "D", "chile_max_rv": 20, "peru": "1", "peru_max_rv": 10}, {"orden": 5, "perfil": "Muy conservador", "chile": "E", "chile_max_rv": 5, "peru": "—", "peru_max_rv": null}, {"orden": 6, "perfil": "Protección de capital", "chile": "—", "chile_max_rv": null, "peru": "0", "peru_max_rv": 0}], "textos": [{"id": "t01", "grupo": "a2025", "orden": 1, "texto": "Todos los fondos de los dos países ganaron en términos reales. En Chile fue el mejor año en seis."}, {"id": "t02", "grupo": "a2025", "orden": 2, "texto": "El fondo más riesgoso de Perú rindió algo más que el de Chile: el Fondo 3 ganó 16,46 % real y el Fondo A, 14,89 %."}, {"id": "t03", "grupo": "a2025", "orden": 3, "texto": "La diferencia estuvo en los fondos conservadores. El Fondo E chileno ganó 8,06 % real gracias a la baja de tasas, y el Fondo 0 peruano solo 3,14 %. Por eso la distancia entre el fondo más riesgoso y el más conservador fue de 6,8 puntos en Chile y de 13,3 en Perú."}, {"id": "t04", "grupo": "a2026", "orden": 4, "texto": "En los 12 meses a septiembre de 2026, el fondo más riesgoso de Perú supera al de Chile por unos 17 puntos: el Fondo 3 gana cerca de 26 % real y el Fondo A, 9,21 %. El Fondo 3 tiene mucha bolsa local ligada a la minería del cobre, el oro y la plata, y acciones extranjeras de tecnología. Aun así, viene bajando desde cerca de 38 % en junio."}, {"id": "t05", "grupo": "a2026", "orden": 5, "texto": "En Chile, los fondos conservadores viven su peor tramo reciente. El alza de las tasas de largo plazo hizo caer los bonos: el Fondo E pierde 9,38 % real en 12 meses y el D, 4,74 %. Según el Diario Financiero, las coberturas con swaps de tasas le restaron cerca de 4,2 puntos al Fondo E."}, {"id": "t06", "grupo": "a2026", "orden": 6, "texto": "En Perú, el golpe a los fondos conservadores vino por la inflación, que subió de 1,5 % a 4,55 %. El Fondo 0 quedó cerca de cero en términos reales y el Fondo 1 en 2,83 %."}, {"id": "t07", "grupo": "a2026", "orden": 7, "texto": "La lección común es que conservador no significa sin riesgo. En Chile el riesgo fue el de tasas y en Perú el de inflación. En los dos casos el fondo seguro perdió poder adquisitivo en el último año."}, {"id": "t08", "grupo": "ahist", "orden": 8, "texto": "Chile muestra un premio por riesgo ordenado desde 2002: cada fondo más riesgoso rinde más, desde 5,90 % real anual en el Fondo A hasta 2,57 % en el Fondo E. Son 3,3 puntos al año de diferencia."}, {"id": "t09", "grupo": "ahist", "orden": 9, "texto": "Desde 2005, el Fondo 2 de Perú rinde 4,83 % real anual, algo más que el Fondo C chileno, con 4,15 %. Las ventanas no son idénticas: Chile se mide desde 2002 porque la Superintendencia publica su promedio oficial desde esa fecha."}, {"id": "t10", "grupo": "ahist", "orden": 10, "texto": "Si se mide desde 2002, el Fondo 2 peruano sube a 6,03 % anual por el auge de 2003 a 2005. El costo de ese rendimiento es la volatilidad: tuvo caídas de cerca de 17 % en 2008 y de 16 % en 2022."}, {"id": "t11", "grupo": "ahist", "orden": 11, "texto": "En Perú, arriesgar más no siempre pagó. Entre 2006 y 2026, en AFP Integra, el Fondo 3 rindió 4,43 % real anual, casi lo mismo que su Fondo 2. Las diferencias entre administradoras también son grandes, así que elegir la AFP pesa casi tanto como elegir el fondo."}, {"id": "t12", "grupo": "comparar", "orden": 12, "texto": "Cada país deflacta con su propio índice: Chile por la UF y Perú por el IPC de Lima. La comparación es de poder adquisitivo local, no de dinero equivalente."}, {"id": "t13", "grupo": "comparar", "orden": 13, "texto": "Las ventanas de 12 meses son muy volátiles. El Fondo 3 peruano pasó de cerca de 38 % a cerca de 26 % en tres meses. Para decidir conviene mirar horizontes largos."}, {"id": "t14", "grupo": "comparar", "orden": 14, "texto": "Los fondos comparables por perfil son el A chileno con el 3 peruano, el C con el 2, y el E con el 0 o el 1."}, {"id": "t15", "grupo": "tamano", "orden": 15, "texto": "El sistema chileno administra cerca de 235 mil millones de dólares y el peruano cerca de 37 mil millones: el chileno es unas 6,4 veces más grande."}, {"id": "t16", "grupo": "tamano", "orden": 16, "texto": "La diferencia se explica sobre todo porque el sistema chileno es 12 años más antiguo y la economía chilena es más grande por habitante. En Perú, además, los retiros extraordinarios de los últimos años redujeron los fondos; la cartera peruana equivale a cerca de 10 % del PBI."}, {"id": "t17", "grupo": "diferencias", "orden": 17, "texto": "Los dos sistemas usan el mismo modelo de cuentas individuales administradas por AFP privadas. Chile lo creó en 1981 y Perú en 1993. En Perú no existe un Fondo 4: los fondos van del 0 al 3."}, {"id": "t18", "grupo": "diferencias", "orden": 18, "texto": "El fondo conservador no es igual en los dos países. El Fondo 0 peruano invierte en instrumentos de corto plazo: casi no le afectan las tasas, pero tampoco le gana a la inflación. El Fondo E chileno invierte en bonos de largo plazo, que caen de precio cuando suben las tasas."}, {"id": "t19", "grupo": "diferencias", "orden": 19, "texto": "Chile tiene cinco escalones de riesgo, con un Fondo B intermedio. Perú tiene cuatro, con un salto grande del Fondo 1 al Fondo 2."}, {"id": "t20", "grupo": "diferencias", "orden": 20, "texto": "En Chile se puede repartir el ahorro obligatorio entre dos fondos. En Perú se está en uno solo."}, {"id": "t21", "grupo": "diferencias", "orden": 21, "texto": "Chile reemplazará los fondos A a E por diez fondos generacionales desde abril de 2027, asignados por año de nacimiento. Perú mantiene sus fondos 0 a 3; la SBS evalúa fondos por ciclo de vida, sin nada aprobado."}, {"id": "t22", "grupo": "nota_equiv", "orden": 22, "texto": "Límites legales generales de inversión en acciones. El Fondo A chileno debe tener además un mínimo de 40 %. El Fondo E chileno no tiene par exacto en Perú: lo más cercano es el 1 o el 0. Perú no tiene un fondo equivalente al B."}, {"id": "t23", "grupo": "nota_chile", "orden": 23, "texto": "Rentabilidad real deflactada por UF, promedio del sistema. Fuente: Superintendencia de Pensiones, corte septiembre de 2026. El Fondo C rinde 7,07 % real anual desde 1981."}, {"id": "t24", "grupo": "nota_peru", "orden": 24, "texto": "Rentabilidad real deflactada por el IPC de Lima, promedio del sistema salvo donde se indica."}, {"id": "t25", "grupo": "nota_peru", "orden": 25, "texto": "2025 y Fondo 1 a agosto: rendimientos nominales de la SBS deflactados con el IPC del BCRP, 1,51 % en 2025 y 4,44 % en los 12 meses a agosto."}, {"id": "t26", "grupo": "nota_peru", "orden": 26, "texto": "12 meses a septiembre: cifras de BioBioChile con datos de la SBS. El boletín de septiembre de la SBS aún no está publicado."}, {"id": "t27", "grupo": "nota_peru", "orden": 27, "texto": "Promedio del Fondo 2: serie oficial del BCRP encadenada, promedio del sistema. Fondos 0, 1 y 3: AFP Integra desde su creación, porque la SBS no publica el promedio real del sistema. Para el Fondo 3 de todo el sistema se estima cerca de 5,7 %."}, {"id": "t28", "grupo": "archivo", "orden": 28, "texto": "El mayor retorno reciente es el Fondo 3 de Perú, con 29,86 % real a agosto o cerca de 26 % a septiembre, no 38,45 %, que era el dato de junio."}, {"id": "t29", "grupo": "archivo", "orden": 29, "texto": "Los fondos A y B de Chile a 12 meses son 9,21 % y 5,96 %. El archivo mostraba el acumulado de enero a septiembre."}, {"id": "t30", "grupo": "archivo", "orden": 30, "texto": "En Chile 2025, los fondos A, D y E no coincidían con la cifra oficial."}, {"id": "t31", "grupo": "archivo", "orden": 31, "texto": "Los promedios históricos de Chile eran entre 0,13 y 0,25 puntos más altos que los oficiales."}, {"id": "t32", "grupo": "archivo", "orden": 32, "texto": "Perú 2025 en términos reales era correcto. El modo nominal del archivo era inventado."}], "patrimonio": [{"pais": "Chile", "monto_musd": 235469.75, "corte": "Septiembre 2026", "fuente": "Superintendencia de Pensiones (tipo de cambio $ 970,46)"}, {"pais": "Perú", "monto_musd": 36911.82, "corte": "Agosto 2026", "fuente": "BCRP, serie Valor del Fondo en millones de US$ (S/ 124.098 millones)"}]};
+  const RAW = {"chile": [{"fondo": "A", "perfil": "Más riesgoso", "r2025": 14.89, "ene_sep_2026": 8.61, "r12m_sep2026": 9.21, "prom_2002_2026": 5.9, "prom_1981_2026": null, "par_peru": "Fondo 3"}, {"fondo": "B", "perfil": "Riesgoso", "r2025": 13.14, "ene_sep_2026": 5.26, "r12m_sep2026": 5.96, "prom_2002_2026": 5.04, "prom_1981_2026": null, "par_peru": "Sin par (entre 2 y 3)"}, {"fondo": "C", "perfil": "Intermedio", "r2025": 12.18, "ene_sep_2026": -1.5, "r12m_sep2026": -0.35, "prom_2002_2026": 4.15, "prom_1981_2026": 7.07, "par_peru": "Fondo 2"}, {"fondo": "D", "perfil": "Conservador", "r2025": 10.47, "ene_sep_2026": -6.38, "r12m_sep2026": -4.74, "prom_2002_2026": 3.27, "prom_1981_2026": null, "par_peru": "Fondo 1"}, {"fondo": "E", "perfil": "Más conservador", "r2025": 8.06, "ene_sep_2026": -10.39, "r12m_sep2026": -9.38, "prom_2002_2026": 2.57, "prom_1981_2026": null, "par_peru": "Fondo 1 o 0"}], "peru": [{"fondo": "3", "perfil": "Crecimiento", "r2025": 16.46, "r12m_ago2026": 29.86, "r12m_sep2026": 25.99, "prom_hist": 4.43, "hist_desde": "2005", "hist_base": "AFP Integra", "par_chile": "Fondo A"}, {"fondo": "2", "perfil": "Mixto", "r2025": 9.28, "r12m_ago2026": 15.04, "r12m_sep2026": 12.6, "prom_hist": 4.83, "hist_desde": "", "hist_base": "Sistema", "par_chile": "Fondo C"}, {"fondo": "1", "perfil": "Conservador", "r2025": 8.36, "r12m_ago2026": 5.45, "r12m_sep2026": 2.83, "prom_hist": 2.69, "hist_desde": "2005", "hist_base": "AFP Integra", "par_chile": "Fondo D"}, {"fondo": "0", "perfil": "Protección de capital", "r2025": 3.14, "r12m_ago2026": 0.04, "r12m_sep2026": -0.12, "prom_hist": 0.96, "hist_desde": "2016", "hist_base": "AFP Integra", "par_chile": "Sin par (cerca del E)"}], "peru_f2": [{"anio": 2006, "r12m_sep": 21.21, "fuente": "BCRP"}, {"anio": 2007, "r12m_sep": 32.88, "fuente": "BCRP"}, {"anio": 2008, "r12m_sep": -16.7, "fuente": "BCRP"}, {"anio": 2009, "r12m_sep": 11.26, "fuente": "BCRP"}, {"anio": 2010, "r12m_sep": 11.5, "fuente": "BCRP"}, {"anio": 2011, "r12m_sep": -1.65, "fuente": "BCRP"}, {"anio": 2012, "r12m_sep": 3.87, "fuente": "BCRP"}, {"anio": 2013, "r12m_sep": -2.13, "fuente": "BCRP"}, {"anio": 2014, "r12m_sep": 6.61, "fuente": "BCRP"}, {"anio": 2015, "r12m_sep": -2.78, "fuente": "BCRP"}, {"anio": 2016, "r12m_sep": 12.03, "fuente": "BCRP"}, {"anio": 2017, "r12m_sep": 6.18, "fuente": "BCRP"}, {"anio": 2018, "r12m_sep": 3.3, "fuente": "BCRP"}, {"anio": 2019, "r12m_sep": 5.18, "fuente": "BCRP"}, {"anio": 2020, "r12m_sep": 2.6, "fuente": "BCRP"}, {"anio": 2021, "r12m_sep": 6.75, "fuente": "BCRP"}, {"anio": 2022, "r12m_sep": -16.22, "fuente": "BCRP"}, {"anio": 2023, "r12m_sep": 3.06, "fuente": "BCRP"}, {"anio": 2024, "r12m_sep": 7.45, "fuente": "BCRP"}, {"anio": 2025, "r12m_sep": 5.53, "fuente": "BCRP"}, {"anio": 2026, "r12m_sep": 12.6, "fuente": "Prensa (BioBioChile, datos SBS)"}], "equivalencias": [{"orden": 1, "perfil": "Agresivo", "chile": "A", "chile_max_rv": 80, "peru": "3", "peru_max_rv": 80}, {"orden": 2, "perfil": "Moderado-agresivo", "chile": "B", "chile_max_rv": 60, "peru": "—", "peru_max_rv": null}, {"orden": 3, "perfil": "Balanceado", "chile": "C", "chile_max_rv": 40, "peru": "2", "peru_max_rv": 45}, {"orden": 4, "perfil": "Conservador", "chile": "D", "chile_max_rv": 20, "peru": "1", "peru_max_rv": 10}, {"orden": 5, "perfil": "Muy conservador", "chile": "E", "chile_max_rv": 5, "peru": "—", "peru_max_rv": null}, {"orden": 6, "perfil": "Protección de capital", "chile": "—", "chile_max_rv": null, "peru": "0", "peru_max_rv": 0}], "textos": [{"id": "t01", "grupo": "a2025", "orden": 1, "texto": "Todos los fondos de los dos países ganaron en términos reales. En Chile fue el mejor año en seis."}, {"id": "t02", "grupo": "a2025", "orden": 2, "texto": "El fondo más riesgoso de Perú rindió algo más que el de Chile: el Fondo 3 ganó 16,46 % real y el Fondo A, 14,89 %."}, {"id": "t03", "grupo": "a2025", "orden": 3, "texto": "La diferencia estuvo en los fondos conservadores. El Fondo E chileno ganó 8,06 % real gracias a la baja de tasas, y el Fondo 0 peruano solo 3,14 %. Por eso la distancia entre el fondo más riesgoso y el más conservador fue de 6,8 puntos en Chile y de 13,3 en Perú."}, {"id": "t04", "grupo": "a2026", "orden": 4, "texto": "En los 12 meses a septiembre de 2026, el fondo más riesgoso de Perú supera al de Chile por unos 17 puntos: el Fondo 3 gana cerca de 26 % real y el Fondo A, 9,21 %. El Fondo 3 tiene mucha bolsa local ligada a la minería del cobre, el oro y la plata, y acciones extranjeras de tecnología. Aun así, viene bajando desde cerca de 38 % en junio."}, {"id": "t05", "grupo": "a2026", "orden": 5, "texto": "En Chile, los fondos conservadores viven su peor tramo reciente. El alza de las tasas de largo plazo hizo caer los bonos: el Fondo E pierde 9,38 % real en 12 meses y el D, 4,74 %. Según el Diario Financiero, las coberturas con swaps de tasas le restaron cerca de 4,2 puntos al Fondo E."}, {"id": "t06", "grupo": "a2026", "orden": 6, "texto": "En Perú, el golpe a los fondos conservadores vino por la inflación, que subió de 1,5 % a 4,55 %. El Fondo 0 quedó cerca de cero en términos reales y el Fondo 1 en 2,83 %."}, {"id": "t07", "grupo": "a2026", "orden": 7, "texto": "La lección común es que conservador no significa sin riesgo. En Chile el riesgo fue el de tasas y en Perú el de inflación. En los dos casos el fondo seguro perdió poder adquisitivo en el último año."}, {"id": "t08", "grupo": "ahist", "orden": 8, "texto": "Chile muestra un premio por riesgo ordenado desde 2002: cada fondo más riesgoso rinde más, desde 5,90 % real anual en el Fondo A hasta 2,57 % en el Fondo E. Son 3,3 puntos al año de diferencia."}, {"id": "t09", "grupo": "ahist", "orden": 9, "texto": "Desde 2005, el Fondo 2 de Perú rinde 4,83 % real anual, algo más que el Fondo C chileno, con 4,15 %. Las ventanas no son idénticas: Chile se mide desde 2002 porque la Superintendencia publica su promedio oficial desde esa fecha."}, {"id": "t10", "grupo": "ahist", "orden": 10, "texto": "Si se mide desde 2002, el Fondo 2 peruano sube a 6,03 % anual por el auge de 2003 a 2005. El costo de ese rendimiento es la volatilidad: tuvo caídas de cerca de 17 % en 2008 y de 16 % en 2022."}, {"id": "t11", "grupo": "ahist", "orden": 11, "texto": "En Perú, arriesgar más no siempre pagó. Entre 2006 y 2026, en AFP Integra, el Fondo 3 rindió 4,43 % real anual, casi lo mismo que su Fondo 2. Las diferencias entre administradoras también son grandes, así que elegir la AFP pesa casi tanto como elegir el fondo."}, {"id": "t12", "grupo": "comparar", "orden": 12, "texto": "Cada país deflacta con su propio índice: Chile por la UF y Perú por el IPC de Lima. La comparación es de poder adquisitivo local, no de dinero equivalente."}, {"id": "t13", "grupo": "comparar", "orden": 13, "texto": "Las ventanas de 12 meses son muy volátiles. El Fondo 3 peruano pasó de cerca de 38 % a cerca de 26 % en tres meses. Para decidir conviene mirar horizontes largos."}, {"id": "t14", "grupo": "comparar", "orden": 14, "texto": "Los fondos comparables por perfil son el A chileno con el 3 peruano, el C con el 2, y el E con el 0 o el 1."}, {"id": "t15", "grupo": "tamano", "orden": 15, "texto": "El sistema chileno administra cerca de 235 mil millones de dólares y el peruano cerca de 37 mil millones: el chileno es unas 6,4 veces más grande."}, {"id": "t16", "grupo": "tamano", "orden": 16, "texto": "La diferencia se explica sobre todo porque el sistema chileno es 12 años más antiguo y la economía chilena es más grande por habitante. En Perú, además, los retiros extraordinarios de los últimos años redujeron los fondos; la cartera peruana equivale a cerca de 10 % del PBI."}, {"id": "t17", "grupo": "diferencias", "orden": 17, "texto": "Los dos sistemas usan el mismo modelo de cuentas individuales administradas por AFP privadas. Chile lo creó en 1981 y Perú en 1993. En Perú no existe un Fondo 4: los fondos van del 0 al 3."}, {"id": "t18", "grupo": "diferencias", "orden": 18, "texto": "El fondo conservador no es igual en los dos países. El Fondo 0 peruano invierte en instrumentos de corto plazo: casi no le afectan las tasas, pero tampoco le gana a la inflación. El Fondo E chileno invierte en bonos de largo plazo, que caen de precio cuando suben las tasas."}, {"id": "t19", "grupo": "diferencias", "orden": 19, "texto": "Chile tiene cinco escalones de riesgo, con un Fondo B intermedio. Perú tiene cuatro, con un salto grande del Fondo 1 al Fondo 2."}, {"id": "t20", "grupo": "diferencias", "orden": 20, "texto": "En Chile se puede repartir el ahorro obligatorio entre dos fondos. En Perú se está en uno solo."}, {"id": "t21", "grupo": "diferencias", "orden": 21, "texto": "Chile reemplazará los fondos A a E por diez fondos generacionales desde abril de 2027, asignados por año de nacimiento. Perú mantiene sus fondos 0 a 3; la SBS evalúa fondos por ciclo de vida, sin nada aprobado."}, {"id": "t22", "grupo": "nota_equiv", "orden": 22, "texto": "Límites legales generales de inversión en acciones. El Fondo A chileno debe tener además un mínimo de 40 %. El Fondo E chileno no tiene par exacto en Perú: lo más cercano es el 1 o el 0. Perú no tiene un fondo equivalente al B."}, {"id": "t23", "grupo": "nota_chile", "orden": 23, "texto": "Rentabilidad real deflactada por UF, promedio del sistema. Fuente: Superintendencia de Pensiones, corte septiembre de 2026. El Fondo C rinde 7,07 % real anual desde 1981."}, {"id": "t24", "grupo": "nota_peru", "orden": 24, "texto": "Rentabilidad real deflactada por el IPC de Lima, promedio del sistema salvo donde se indica."}, {"id": "t25", "grupo": "nota_peru", "orden": 25, "texto": "2025 y Fondo 1 a agosto: rendimientos nominales de la SBS deflactados con el IPC del BCRP, 1,51 % en 2025 y 4,44 % en los 12 meses a agosto."}, {"id": "t26", "grupo": "nota_peru", "orden": 26, "texto": "12 meses a septiembre: cifras de BioBioChile con datos de la SBS. El boletín de septiembre de la SBS aún no está publicado."}, {"id": "t27", "grupo": "nota_peru", "orden": 27, "texto": "Promedio del Fondo 2: serie oficial del BCRP encadenada, promedio del sistema. Fondos 0, 1 y 3: AFP Integra desde su creación, porque la SBS no publica el promedio real del sistema. Para el Fondo 3 de todo el sistema se estima cerca de 5,7 %."}, {"id": "t28", "grupo": "archivo", "orden": 28, "texto": "El mayor retorno reciente es el Fondo 3 de Perú, con 29,86 % real a agosto o cerca de 26 % a septiembre, no 38,45 %, que era el dato de junio."}, {"id": "t29", "grupo": "archivo", "orden": 29, "texto": "Los fondos A y B de Chile a 12 meses son 9,21 % y 5,96 %. El archivo mostraba el acumulado de enero a septiembre."}, {"id": "t30", "grupo": "archivo", "orden": 30, "texto": "En Chile 2025, los fondos A, D y E no coincidían con la cifra oficial."}, {"id": "t31", "grupo": "archivo", "orden": 31, "texto": "Los promedios históricos de Chile eran entre 0,13 y 0,25 puntos más altos que los oficiales."}, {"id": "t32", "grupo": "archivo", "orden": 32, "texto": "Perú 2025 en términos reales era correcto. El modo nominal del archivo era inventado."}, {"id": "t33", "grupo": "legal", "orden": 33, "texto": "Perú da más libertad: se puede elegir entre el sistema público y las AFP, se mantiene la libre elección del fondo y existe el Fondo 0 para proteger el capital de los mayores."}, {"id": "t34", "grupo": "legal", "orden": 34, "texto": "Chile da más aportes y cobertura: el empleador aportará hasta 8,5 % del sueldo, el seguro lo paga el empleador y existe la Pensión Garantizada Universal."}, {"id": "t35", "grupo": "legal", "orden": 35, "texto": "Chile está eliminando la libre elección del fondo y la rentabilidad mínima como existía. Perú avanza hacia una comparación con carteras de referencia, pero aún no la aplica."}, {"id": "t36", "grupo": "legal", "orden": 36, "texto": "Esta comparación resume reglas generales. Algunos detalles de las reformas de ambos países todavía dependen de reglamentos."}, {"id": "t37", "grupo": "cobertura", "orden": 37, "texto": "En Chile cotiza en una AFP cerca de 56 % de la fuerza de trabajo. En Perú, solo cerca de 23 %."}, {"id": "t38", "grupo": "cobertura", "orden": 38, "texto": "Medido sobre toda la población, cotiza 28,7 % de los habitantes de Chile y 12,2 % de los de Perú."}, {"id": "t39", "grupo": "cobertura", "orden": 39, "texto": "La gran diferencia es la informalidad: en Perú cerca de 71 % de los trabajadores es informal y no cotiza; en Chile, cerca de 26 %."}, {"id": "t40", "grupo": "cobertura", "orden": 40, "texto": "En ambos países hay muchos más afiliados que cotizantes: cotiza cerca de 47 % de los afiliados en Chile y 40 % en Perú."}, {"id": "t41", "grupo": "cobertura", "orden": 41, "texto": "En Perú, además, parte de los trabajadores formales cotiza en la ONP, el sistema público, y no aparece en estas cifras."}], "patrimonio": [{"pais": "Chile", "monto_musd": 235469.75, "corte": "Septiembre 2026", "fuente": "Superintendencia de Pensiones (tipo de cambio $ 970,46)"}, {"pais": "Perú", "monto_musd": 36911.82, "corte": "Agosto 2026", "fuente": "BCRP, serie Valor del Fondo en millones de US$ (S/ 124.098 millones)"}], "legal": [{"orden": 1, "grupo": "afiliacion", "grupo_nombre": "Afiliación", "tema": "¿Es obligatorio estar en una AFP?", "peru": "No. El trabajador dependiente debe cotizar, pero elige entre la ONP, que es pública, y una AFP.", "chile": "Sí. Desde 1983 no hay opción pública para quien empieza a trabajar.", "favorece": "Perú"}, {"orden": 2, "grupo": "afiliacion", "grupo_nombre": "Afiliación", "tema": "Nuevos afiliados", "peru": "Quien no elige queda en la AFP que ganó la licitación, con la comisión más baja, por 24 meses. Hoy es Profuturo.", "chile": "Quien empieza a trabajar queda en la AFP que ganó la licitación, con la comisión más baja, por 24 meses.", "favorece": "Similar"}, {"orden": 3, "grupo": "afiliacion", "grupo_nombre": "Afiliación", "tema": "Cambio entre sistema público y privado", "peru": "La reforma permite trasladarse entre la ONP y las AFP; el reglamento lo anunció desde septiembre de 2026.", "chile": "No aplica: no hay sistema público para los nuevos trabajadores.", "favorece": "Perú"}, {"orden": 4, "grupo": "afiliacion", "grupo_nombre": "Afiliación", "tema": "Trabajadores independientes", "peru": "La reforma los incorpora de forma gradual, partiendo con un aporte bajo.", "chile": "Cotizan obligatoriamente a través de la declaración anual de impuestos si emiten boletas de honorarios.", "favorece": "Chile"}, {"orden": 5, "grupo": "afiliacion", "grupo_nombre": "Afiliación", "tema": "Administradoras y regulador", "peru": "4 AFP: Habitat, Integra, Prima y Profuturo. Las regula la SBS.", "chile": "7 AFP: Capital, Cuprum, Habitat, Modelo, PlanVital, Provida y Uno. Las regula la Superintendencia de Pensiones.", "favorece": "Distinto"}, {"orden": 6, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Aporte del trabajador a su cuenta", "peru": "10 % del sueldo.", "chile": "10 % del sueldo.", "favorece": "Similar"}, {"orden": 7, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Comisión de la AFP", "peru": "La paga el trabajador: sobre el saldo, entre 0,68 % y 1,25 % al año, o sobre el sueldo en el esquema antiguo.", "chile": "La paga el trabajador: sobre el sueldo, entre 0,46 % y 1,45 %.", "favorece": "Depende"}, {"orden": 8, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Seguro de invalidez y sobrevivencia", "peru": "Lo paga el trabajador: 1,37 % del sueldo.", "chile": "Lo paga el empleador.", "favorece": "Chile"}, {"orden": 9, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Aporte del empleador", "peru": "No hay.", "chile": "Nuevo desde agosto de 2025: parte en 1 % y sube hasta 8,5 % en 2033.", "favorece": "Chile"}, {"orden": 10, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Total que se aporta", "peru": "Cerca de 11,4 % del sueldo más la comisión, todo a cargo del trabajador.", "chile": "Llegará a cerca de 18,5 % del sueldo en 2033, sumando trabajador y empleador.", "favorece": "Chile"}, {"orden": 11, "grupo": "aportes", "grupo_nombre": "Aportes y costos", "tema": "Aporte por consumo", "peru": "La reforma crea un aporte a la cuenta a partir de las compras con boleta electrónica.", "chile": "No existe.", "favorece": "Perú"}, {"orden": 12, "grupo": "fondos", "grupo_nombre": "Fondos e inversión", "tema": "Tipos de fondo", "peru": "4 fondos: 0, 1, 2 y 3.", "chile": "5 fondos: A, B, C, D y E. Desde abril de 2027 serán 10 fondos generacionales.", "favorece": "Distinto"}, {"orden": 13, "grupo": "fondos", "grupo_nombre": "Fondos e inversión", "tema": "Elección del fondo", "peru": "Libre, en un solo fondo.", "chile": "Libre, hasta en dos fondos. Se elimina desde abril de 2027: cada persona quedará en el fondo de su año de nacimiento.", "favorece": "Perú"}, {"orden": 14, "grupo": "fondos", "grupo_nombre": "Fondos e inversión", "tema": "Fondo de protección de capital", "peru": "Sí: el Fondo 0 invierte en instrumentos de corto plazo y es el fondo por defecto desde los 65 años.", "chile": "No existe. El fondo más conservador, el E, invierte en bonos de largo plazo.", "favorece": "Perú"}, {"orden": 15, "grupo": "fondos", "grupo_nombre": "Fondos e inversión", "tema": "Rentabilidad mínima garantizada", "peru": "Sí: si un fondo rinde menos que el promedio, la AFP cubre la diferencia con su encaje. Pasará a compararse con una cartera de referencia.", "chile": "La reforma la reemplaza por una comparación con carteras de referencia en los fondos generacionales.", "favorece": "Perú"}, {"orden": 16, "grupo": "retiros", "grupo_nombre": "Retiros y pensión", "tema": "Edad legal de jubilación", "peru": "65 años para hombres y mujeres.", "chile": "65 años los hombres y 60 años las mujeres.", "favorece": "Distinto"}, {"orden": 17, "grupo": "retiros", "grupo_nombre": "Retiros y pensión", "tema": "Retiro del fondo al jubilar", "peru": "Se puede retirar hasta 95,5 % del fondo. La reforma lo elimina para quienes tenían menos de 40 años.", "chile": "No: el fondo se transforma en pensión, como renta vitalicia o retiro programado. Solo se retira el excedente de libre disposición.", "favorece": "Depende"}, {"orden": 18, "grupo": "retiros", "grupo_nombre": "Retiros y pensión", "tema": "Retiros extraordinarios", "peru": "Ocho retiros desde 2020, aprobados por el Congreso.", "chile": "Tres retiros entre 2020 y 2021; los siguientes se rechazaron.", "favorece": "Distinto"}, {"orden": 19, "grupo": "retiros", "grupo_nombre": "Retiros y pensión", "tema": "Pensión mínima o garantizada", "peru": "La reforma crea una pensión mínima, cuyo monto fija un decreto. Pensión 65 apoya a personas en pobreza extrema.", "chile": "Pensión Garantizada Universal (PGU) para el 90 % de los mayores de 65 años con menos recursos.", "favorece": "Chile"}, {"orden": 20, "grupo": "reformas", "grupo_nombre": "Reformas recientes", "tema": "Última reforma", "peru": "Ley 32123, de 2024, reglamentada en 2026.", "chile": "Ley 21.735, de 2025, con aplicación gradual hasta 2033.", "favorece": "Distinto"}], "cobertura": [{"pais": "Chile", "poblacion": 20150948, "fuerza_trabajo": 10263145, "afiliados": 12204541, "cotizantes": 5775070, "pct_cot_ft": 56.3, "pct_cot_pob": 28.7, "pct_cot_afi": 47.3, "informalidad": 26.3, "corte": "Cotizantes junio 2026, afiliados julio 2026, fuerza de trabajo junio-agosto 2026, población proyectada 2026"}, {"pais": "Perú", "poblacion": 34157732, "fuerza_trabajo": 18481285, "afiliados": 10552814, "cotizantes": 4170090, "pct_cot_ft": 22.6, "pct_cot_pob": 12.2, "pct_cot_afi": 39.5, "informalidad": 70.9, "corte": "Cotizantes marzo 2026, afiliados junio 2026, población censo 2025, informalidad 2024"}]};
   const calcs = {};
   const cbs = [];
   const css = getComputedStyle(document.documentElement);
@@ -520,6 +699,8 @@ window.dash = (() => {
   const rowsOf = (id) => { const d = dash.data(id); return d.status === 'ok' && Array.isArray(d.data) ? d.data : null; };
   const statusOf = (id) => dash.data(id).status;
   const COLOR = () => [dash.colors[0], dash.colors[1]];
+  document.getElementById('lx').style.setProperty('--lx-chile', dash.colors[0]);
+  document.getElementById('lx').style.setProperty('--lx-peru', dash.colors[1]);
   document.querySelectorAll('.lx-sw0').forEach((i) => { i.style.background = dash.colors[0]; });
   document.querySelectorAll('.lx-sw1').forEach((i) => { i.style.background = dash.colors[1]; });
 
@@ -727,6 +908,7 @@ window.dash = (() => {
       });
     }
     if (b.dataset.grafico && EXPLICAR[b.dataset.grafico]) partes.push(EXPLICAR[b.dataset.grafico]());
+    if (b.dataset.legal) partes.push(leerLegal(b.dataset.legal));
     if (b.dataset.tabla) {
       partes.push((b.dataset.titulo || '') + '.');
       partes.push(leerTabla(b.dataset.tabla));
@@ -1119,6 +1301,95 @@ window.dash = (() => {
     hist: () => explicarNueve(MODOS.hist),
     f2: explicarF2,
     size: explicarTamano,
+    cobertura: () => explicarCobertura(),
+  };
+
+  // ---------- comparación legal ----------
+  const FAV = { 'Perú': 'peru', 'Chile': 'chile', 'Similar': 'similar', 'Depende': 'depende', 'Distinto': 'distinto' };
+  const FAV_DICHO = {
+    'Perú': 'Más favorable al afiliado en Perú.',
+    'Chile': 'Más favorable al afiliado en Chile.',
+    'Similar': 'Las reglas son similares.',
+    'Depende': 'Cuál conviene más depende de cada caso.',
+    'Distinto': 'Son reglas distintas, sin una ventaja clara.',
+  };
+  const filasLegal = (g) => { const r = rowsOf('legal'); return r ? r.filter((x) => x.grupo === g).sort((a, b) => Number(a.orden) - Number(b.orden)) : null; };
+  const leerLegal = (g) => {
+    const rows = filasLegal(g);
+    if (!rows || !rows.length) return '';
+    return [rows[0].grupo_nombre + '.'].concat(rows.map((r) => r.tema + '. En Perú: ' + r.peru + ' En Chile: ' + r.chile + ' ' + (FAV_DICHO[r.favorece] || ''))).join(' ');
+  };
+  const llenarLegal = () => {
+    document.querySelectorAll('table.lx-legal').forEach((t) => {
+      const rows = filasLegal(t.dataset.grupoLegal);
+      const tb = t.tBodies[0];
+      tb.replaceChildren();
+      if (!rows) return;
+      rows.forEach((r) => {
+        const tr = document.createElement('tr');
+        tr.dataset.key = r.tema;
+        const a = document.createElement('td'); a.className = 'lx-tema'; a.textContent = r.tema;
+        const b = document.createElement('td'); b.dataset.label = 'Perú'; b.textContent = r.peru;
+        const c = document.createElement('td'); c.dataset.label = 'Chile'; c.textContent = r.chile;
+        const d = document.createElement('td'); d.dataset.label = 'Más favorable al afiliado';
+        const chipF = document.createElement('span'); chipF.className = 'lx-fav ' + (FAV[r.favorece] || 'distinto'); chipF.textContent = r.favorece;
+        d.appendChild(chipF);
+        tr.append(a, b, c, d);
+        tb.appendChild(tr);
+      });
+    });
+  };
+  const METRICAS = [
+    { f: 'pct_cot_ft', l: 'Cotiza, sobre la fuerza de trabajo' },
+    { f: 'pct_cot_pob', l: 'Cotiza, sobre la población total' },
+    { f: 'pct_cot_afi', l: 'Afiliados que cotizan' },
+    { f: 'informalidad', l: 'Trabajo informal' },
+  ];
+  const nf1 = new Intl.NumberFormat('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const cobertura = () => {
+    const box = document.getElementById('cob-chart');
+    const st = statusOf('cobertura');
+    if (st === 'error' || st === 'connect' || st === 'declined') { falla(box); return; }
+    const rows = rowsOf('cobertura');
+    box.replaceChildren();
+    if (!rows) return;
+    const orden = [rows.find((r) => r.pais === 'Chile'), rows.find((r) => r.pais === 'Perú')].filter(Boolean);
+    METRICAS.forEach((m) => {
+      const w = document.createElement('div'); w.className = 'lx-cob-m';
+      const l = document.createElement('div'); l.className = 'lx-cob-l'; l.textContent = m.l;
+      w.appendChild(l);
+      orden.forEach((r) => {
+        const v = num(r[m.f]);
+        const row = document.createElement('div'); row.className = 'lx-cob-r';
+        row.dataset.source = 'cobertura'; row.dataset.field = m.f; row.dataset.where = 'pais=' + encodeURIComponent(r.pais);
+        const n = document.createElement('span'); n.textContent = r.pais;
+        const tr = document.createElement('div'); tr.className = 'lx-cob-track';
+        const fl = document.createElement('div'); fl.className = 'lx-cob-fill'; fl.style.width = (v || 0) + '%'; fl.style.background = dash.colors[r.pais === 'Chile' ? 0 : 1];
+        tr.appendChild(fl);
+        const val = document.createElement('span'); val.className = 'lx-cob-v'; val.textContent = v === null ? '—' : nf1.format(v) + ' %';
+        row.append(n, tr, val);
+        w.appendChild(row);
+      });
+      box.appendChild(w);
+    });
+    document.getElementById('cob-cortes').textContent = orden.map((r) => r.pais + ': ' + r.corte + '.').join(' ');
+  };
+  const llenarCobertura = () => {
+    tabla('tabla-cobertura', rowsOf('cobertura'), [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = r.pais; },
+      (td, r) => { td.textContent = nf0.format(num(r.poblacion)); },
+      (td, r) => { td.textContent = nf0.format(num(r.fuerza_trabajo)); },
+      (td, r) => { td.textContent = nf0.format(num(r.afiliados)); },
+      (td, r) => { td.textContent = nf0.format(num(r.cotizantes)); },
+    ], (r) => String(r.pais));
+    cobertura();
+  };
+  const explicarCobertura = () => {
+    const rows = rowsOf('cobertura');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const c = rows.find((r) => r.pais === 'Chile'); const p = rows.find((r) => r.pais === 'Perú');
+    return 'Este gráfico compara cuánta gente cotiza en una AFP en cada país. Las barras azules son de Chile y las rojas de Perú. ' +
+      METRICAS.map((m) => m.l + ': Chile ' + nf1.format(num(c[m.f])) + ' %, y Perú ' + nf1.format(num(p[m.f])) + ' %.').join(' ');
   };
 
   function dibujarGraficos() {
@@ -1135,6 +1406,8 @@ window.dash = (() => {
   dash.onData(() => {
     llenarMarcas();
     llenarTablas();
+    llenarLegal();
+    llenarCobertura();
     llenarTextos();
     dibujarGraficos();
   });
@@ -1144,6 +1417,6 @@ window.dash = (() => {
 })();
 </script>
 
-<script>document.getElementById('lx').appendChild(Object.assign(document.createElement('div'), { innerHTML: "<p class=\"lx-pie\">Copia del tablero preparada el 16 de octubre de 2026. Las cifras quedan fijas a ese corte.</p>" }));</script>
+<script>(() => { const c = document.getElementById('credito'); const p = document.createElement('div'); p.innerHTML = "<p class=\"lx-pie\">Copia del tablero con cifras fijas al corte de septiembre de 2026.</p>"; (c ? c.parentNode.insertBefore(p.firstChild, c) : document.getElementById('lx').appendChild(p.firstChild)); })();</script>
 </body>
 </html>

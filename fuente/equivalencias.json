@@ -1,0 +1,52 @@
+{
+"rows": [
+{
+"orden": 1,
+"perfil": "Agresivo",
+"chile": "A",
+"chile_max_rv": 80,
+"peru": "3",
+"peru_max_rv": 80
+},
+{
+"orden": 2,
+"perfil": "Moderado-agresivo",
+"chile": "B",
+"chile_max_rv": 60,
+"peru": "—",
+"peru_max_rv": null
+},
+{
+"orden": 3,
+"perfil": "Balanceado",
+"chile": "C",
+"chile_max_rv": 40,
+"peru": "2",
+"peru_max_rv": 45
+},
+{
+"orden": 4,
+"perfil": "Conservador",
+"chile": "D",
+"chile_max_rv": 20,
+"peru": "1",
+"peru_max_rv": 10
+},
+{
+"orden": 5,
+"perfil": "Muy conservador",
+"chile": "E",
+"chile_max_rv": 5,
+"peru": "—",
+"peru_max_rv": null
+},
+{
+"orden": 6,
+"perfil": "Protección de capital",
+"chile": "—",
+"chile_max_rv": null,
+"peru": "0",
+"peru_max_rv": 0
+}
+]
+}

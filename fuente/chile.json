@@ -1,0 +1,54 @@
+{
+"rows": [
+{
+"fondo": "A",
+"perfil": "Más riesgoso",
+"r2025": 14.89,
+"ene_sep_2026": 8.61,
+"r12m_sep2026": 9.21,
+"prom_2002_2026": 5.9,
+"prom_1981_2026": null,
+"par_peru": "Fondo 3"
+},
+{
+"fondo": "B",
+"perfil": "Riesgoso",
+"r2025": 13.14,
+"ene_sep_2026": 5.26,
+"r12m_sep2026": 5.96,
+"prom_2002_2026": 5.04,
+"prom_1981_2026": null,
+"par_peru": "Sin par (entre 2 y 3)"
+},
+{
+"fondo": "C",
+"perfil": "Intermedio",
+"r2025": 12.18,
+"ene_sep_2026": -1.5,
+"r12m_sep2026": -0.35,
+"prom_2002_2026": 4.15,
+"prom_1981_2026": 7.07,
+"par_peru": "Fondo 2"
+},
+{
+"fondo": "D",
+"perfil": "Conservador",
+"r2025": 10.47,
+"ene_sep_2026": -6.38,
+"r12m_sep2026": -4.74,
+"prom_2002_2026": 3.27,
+"prom_1981_2026": null,
+"par_peru": "Fondo 1"
+},
+{
+"fondo": "E",
+"perfil": "Más conservador",
+"r2025": 8.06,
+"ene_sep_2026": -10.39,
+"r12m_sep2026": -9.38,
+"prom_2002_2026": 2.57,
+"prom_1981_2026": null,
+"par_peru": "Fondo 1 o 0"
+}
+]
+}

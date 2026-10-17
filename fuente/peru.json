@@ -1,0 +1,48 @@
+{
+"rows": [
+{
+"fondo": "3",
+"perfil": "Crecimiento",
+"r2025": 16.46,
+"r12m_ago2026": 29.86,
+"r12m_sep2026": 25.99,
+"prom_hist": 4.43,
+"hist_desde": "2005",
+"hist_base": "AFP Integra",
+"par_chile": "Fondo A"
+},
+{
+"fondo": "2",
+"perfil": "Mixto",
+"r2025": 9.28,
+"r12m_ago2026": 15.04,
+"r12m_sep2026": 12.6,
+"prom_hist": 4.83,
+"hist_desde": "",
+"hist_base": "Sistema",
+"par_chile": "Fondo C"
+},
+{
+"fondo": "1",
+"perfil": "Conservador",
+"r2025": 8.36,
+"r12m_ago2026": 5.45,
+"r12m_sep2026": 2.83,
+"prom_hist": 2.69,
+"hist_desde": "2005",
+"hist_base": "AFP Integra",
+"par_chile": "Fondo D"
+},
+{
+"fondo": "0",
+"perfil": "Protección de capital",
+"r2025": 3.14,
+"r12m_ago2026": 0.04,
+"r12m_sep2026": -0.12,
+"prom_hist": 0.96,
+"hist_desde": "2016",
+"hist_base": "AFP Integra",
+"par_chile": "Sin par (cerca del E)"
+}
+]
+}

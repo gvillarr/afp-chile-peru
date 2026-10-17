@@ -1,0 +1,184 @@
+{
+"rows": [
+{
+"orden": 1,
+"grupo": "afiliacion",
+"grupo_nombre": "Afiliación",
+"tema": "¿Es obligatorio estar en una AFP?",
+"peru": "No. El trabajador dependiente debe cotizar, pero elige entre la ONP, que es pública, y una AFP.",
+"chile": "Sí. Desde 1983 no hay opción pública para quien empieza a trabajar.",
+"favorece": "Perú"
+},
+{
+"orden": 2,
+"grupo": "afiliacion",
+"grupo_nombre": "Afiliación",
+"tema": "Nuevos afiliados",
+"peru": "Quien no elige queda en la AFP que ganó la licitación, con la comisión más baja, por 24 meses. Hoy es Profuturo.",
+"chile": "Quien empieza a trabajar queda en la AFP que ganó la licitación, con la comisión más baja, por 24 meses.",
+"favorece": "Similar"
+},
+{
+"orden": 3,
+"grupo": "afiliacion",
+"grupo_nombre": "Afiliación",
+"tema": "Cambio entre sistema público y privado",
+"peru": "La reforma permite trasladarse entre la ONP y las AFP; el reglamento lo anunció desde septiembre de 2026.",
+"chile": "No aplica: no hay sistema público para los nuevos trabajadores.",
+"favorece": "Perú"
+},
+{
+"orden": 4,
+"grupo": "afiliacion",
+"grupo_nombre": "Afiliación",
+"tema": "Trabajadores independientes",
+"peru": "La reforma los incorpora de forma gradual, partiendo con un aporte bajo.",
+"chile": "Cotizan obligatoriamente a través de la declaración anual de impuestos si emiten boletas de honorarios.",
+"favorece": "Chile"
+},
+{
+"orden": 5,
+"grupo": "afiliacion",
+"grupo_nombre": "Afiliación",
+"tema": "Administradoras y regulador",
+"peru": "4 AFP: Habitat, Integra, Prima y Profuturo. Las regula la SBS.",
+"chile": "7 AFP: Capital, Cuprum, Habitat, Modelo, PlanVital, Provida y Uno. Las regula la Superintendencia de Pensiones.",
+"favorece": "Distinto"
+},
+{
+"orden": 6,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Aporte del trabajador a su cuenta",
+"peru": "10 % del sueldo.",
+"chile": "10 % del sueldo.",
+"favorece": "Similar"
+},
+{
+"orden": 7,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Comisión de la AFP",
+"peru": "La paga el trabajador: sobre el saldo, entre 0,68 % y 1,25 % al año, o sobre el sueldo en el esquema antiguo.",
+"chile": "La paga el trabajador: sobre el sueldo, entre 0,46 % y 1,45 %.",
+"favorece": "Depende"
+},
+{
+"orden": 8,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Seguro de invalidez y sobrevivencia",
+"peru": "Lo paga el trabajador: 1,37 % del sueldo.",
+"chile": "Lo paga el empleador.",
+"favorece": "Chile"
+},
+{
+"orden": 9,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Aporte del empleador",
+"peru": "No hay.",
+"chile": "Nuevo desde agosto de 2025: parte en 1 % y sube hasta 8,5 % en 2033.",
+"favorece": "Chile"
+},
+{
+"orden": 10,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Total que se aporta",
+"peru": "Cerca de 11,4 % del sueldo más la comisión, todo a cargo del trabajador.",
+"chile": "Llegará a cerca de 18,5 % del sueldo en 2033, sumando trabajador y empleador.",
+"favorece": "Chile"
+},
+{
+"orden": 11,
+"grupo": "aportes",
+"grupo_nombre": "Aportes y costos",
+"tema": "Aporte por consumo",
+"peru": "La reforma crea un aporte a la cuenta a partir de las compras con boleta electrónica.",
+"chile": "No existe.",
+"favorece": "Perú"
+},
+{
+"orden": 12,
+"grupo": "fondos",
+"grupo_nombre": "Fondos e inversión",
+"tema": "Tipos de fondo",
+"peru": "4 fondos: 0, 1, 2 y 3.",
+"chile": "5 fondos: A, B, C, D y E. Desde abril de 2027 serán 10 fondos generacionales.",
+"favorece": "Distinto"
+},
+{
+"orden": 13,
+"grupo": "fondos",
+"grupo_nombre": "Fondos e inversión",
+"tema": "Elección del fondo",
+"peru": "Libre, en un solo fondo.",
+"chile": "Libre, hasta en dos fondos. Se elimina desde abril de 2027: cada persona quedará en el fondo de su año de nacimiento.",
+"favorece": "Perú"
+},
+{
+"orden": 14,
+"grupo": "fondos",
+"grupo_nombre": "Fondos e inversión",
+"tema": "Fondo de protección de capital",
+"peru": "Sí: el Fondo 0 invierte en instrumentos de corto plazo y es el fondo por defecto desde los 65 años.",
+"chile": "No existe. El fondo más conservador, el E, invierte en bonos de largo plazo.",
+"favorece": "Perú"
+},
+{
+"orden": 15,
+"grupo": "fondos",
+"grupo_nombre": "Fondos e inversión",
+"tema": "Rentabilidad mínima garantizada",
+"peru": "Sí: si un fondo rinde menos que el promedio, la AFP cubre la diferencia con su encaje. Pasará a compararse con una cartera de referencia.",
+"chile": "La reforma la reemplaza por una comparación con carteras de referencia en los fondos generacionales.",
+"favorece": "Perú"
+},
+{
+"orden": 16,
+"grupo": "retiros",
+"grupo_nombre": "Retiros y pensión",
+"tema": "Edad legal de jubilación",
+"peru": "65 años para hombres y mujeres.",
+"chile": "65 años los hombres y 60 años las mujeres.",
+"favorece": "Distinto"
+},
+{
+"orden": 17,
+"grupo": "retiros",
+"grupo_nombre": "Retiros y pensión",
+"tema": "Retiro del fondo al jubilar",
+"peru": "Se puede retirar hasta 95,5 % del fondo. La reforma lo elimina para quienes tenían menos de 40 años.",
+"chile": "No: el fondo se transforma en pensión, como renta vitalicia o retiro programado. Solo se retira el excedente de libre disposición.",
+"favorece": "Depende"
+},
+{
+"orden": 18,
+"grupo": "retiros",
+"grupo_nombre": "Retiros y pensión",
+"tema": "Retiros extraordinarios",
+"peru": "Ocho retiros desde 2020, aprobados por el Congreso.",
+"chile": "Tres retiros entre 2020 y 2021; los siguientes se rechazaron.",
+"favorece": "Distinto"
+},
+{
+"orden": 19,
+"grupo": "retiros",
+"grupo_nombre": "Retiros y pensión",
+"tema": "Pensión mínima o garantizada",
+"peru": "La reforma crea una pensión mínima, cuyo monto fija un decreto. Pensión 65 apoya a personas en pobreza extrema.",
+"chile": "Pensión Garantizada Universal (PGU) para el 90 % de los mayores de 65 años con menos recursos.",
+"favorece": "Chile"
+},
+{
+"orden": 20,
+"grupo": "reformas",
+"grupo_nombre": "Reformas recientes",
+"tema": "Última reforma",
+"peru": "Ley 32123, de 2024, reglamentada en 2026.",
+"chile": "Ley 21.735, de 2025, con aplicación gradual hasta 2033.",
+"favorece": "Distinto"
+}
+]
+}

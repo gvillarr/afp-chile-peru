@@ -1,0 +1,1331 @@
+<style>
+  .lx { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); max-width: 76rem; margin-inline: auto; }
+  .lx * { box-sizing: border-box; }
+  .lx-head { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: flex-end; justify-content: space-between; }
+  .lx-head-txt { min-width: 0; flex: 1 1 28rem; display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+  .lx-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.25); line-height: 1.15; margin: 0; text-wrap: balance; }
+  .lx-take { margin: 0; font-size: var(--cds-font-size-body); max-width: 62ch; line-height: 1.5; }
+  .lx .lx-take b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .lx-sub { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .lx-actions { display: flex; gap: var(--cds-gap-sm); flex-wrap: wrap; }
+
+  .lx-oir, .lx-seg button { appearance: none; font: inherit; font-size: var(--cds-font-size-caption); display: inline-flex; align-items: center; gap: var(--cds-gap-xs); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: 999px; background: var(--color-panel); color: var(--color-fg); cursor: pointer; line-height: 1.2; min-height: 2rem; }
+  .lx-oir:hover, .lx-seg button:hover { border-color: var(--color-fg-muted); }
+  .lx-oir:focus-visible, .lx-seg button:focus-visible, .lx-tab:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .lx-oir svg { width: 1rem; height: 1rem; flex: none; }
+  .lx-oir[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .lx-oir:disabled { opacity: .5; cursor: not-allowed; }
+  .lx-voz { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); min-width: 0; }
+  .lx-voz select { font: inherit; color: var(--color-fg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-xs) var(--cds-pad-sm); max-width: 14rem; min-height: 2rem; }
+  .lx-oir .lx-ico-stop { display: none; }
+  .lx-oir[aria-pressed="true"] .lx-ico-stop { display: block; }
+  .lx-oir[aria-pressed="true"] .lx-ico-play { display: none; }
+
+  .lx-tabs { display: flex; gap: var(--cds-gap-xs); overflow-x: auto; border-bottom: 1px solid var(--color-border-line); scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--color-bg); z-index: 2; }
+  .lx-tabs::-webkit-scrollbar { display: none; }
+  .lx-tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; padding: var(--cds-pad-sm) var(--cds-pad-md); font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg-muted); cursor: pointer; white-space: nowrap; }
+  .lx-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+
+  .lx-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+  .lx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+  .lx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: var(--cds-gap-md); }
+  @media (max-width: 30rem) { .lx-kpi { padding: var(--cds-pad-md); } .lx-kpi-v { font-size: var(--cds-font-size-title); } }
+  .lx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .lx-card-head { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: flex-start; justify-content: space-between; }
+  .lx-card-head > div { min-width: 0; flex: 1 1 14rem; }
+  .lx-card h2, .lx-card h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); text-wrap: balance; }
+  .lx-note { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.45; }
+  .lx-sec-title { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+
+  .lx-kpi { gap: var(--cds-gap-xs); }
+  .lx-kpi-l { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-kpi-v { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.2); line-height: 1.1; font-variant-numeric: tabular-nums; min-height: 1.2em; }
+  .lx-kpi-s { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-pos { color: var(--color-ok); }
+  .lx-neg { color: var(--color-bad); }
+
+  .lx-seg { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
+  .lx-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .lx-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-legend span { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); }
+  .lx-legend i { width: .7rem; height: .7rem; border-radius: 2px; display: inline-block; }
+
+  .lx-chart { position: relative; width: 100%; min-width: 0; }
+  .lx-chart svg { display: block; overflow: visible; }
+  .lx-chart text { font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-caption); fill: var(--color-fg-muted); }
+  .lx-chart .lx-lbl { fill: var(--color-fg); }
+  .lx-chart .lx-val { fill: var(--color-fg); font-variant-numeric: tabular-nums; }
+  .lx-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 3; }
+  .lx-tip .k { color: var(--cds-text-secondary); }
+  .lx-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-xs); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); min-height: inherit; }
+  .lx-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+
+  .lx-tablebox { overflow-x: auto; margin-inline: calc(var(--cds-pad-lg) * -1); padding-inline: var(--cds-pad-lg); }
+  .lx-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: var(--cds-font-size-body); }
+  .lx-table th, .lx-table td { padding: var(--cds-pad-sm) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); text-align: right; vertical-align: top; }
+  .lx-table thead th { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); line-height: 1.3; min-width: 6.5rem; }
+  .lx-table th:first-child, .lx-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--color-panel); min-width: 0; white-space: nowrap; }
+  .lx-table td:nth-child(2), .lx-table th:nth-child(2) { text-align: left; }
+  .lx-table tbody tr:last-child td { border-bottom: 0; }
+  .lx-fondo { font-weight: var(--cds-font-weight-medium); }
+  .lx-chip { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); white-space: nowrap; }
+  .lx-chip i { width: .55rem; height: .55rem; border-radius: 50%; flex: none; display: inline-block; }
+  .lx-table th:nth-child(3), .lx-table td:nth-child(3) { text-align: left; }
+  #tabla-equiv th:nth-child(3) { text-align: right; }
+  .lx-bar { display: flex; align-items: center; justify-content: flex-end; gap: var(--cds-gap-sm); }
+  .lx-bar span { white-space: nowrap; }
+  .lx-table td { white-space: nowrap; }
+  .lx-text p, .lx-fuentes td { white-space: normal; }
+  .lx-bar-track { width: 4.5rem; height: .5rem; border-radius: 999px; background: var(--cds-chart-grid); overflow: hidden; flex: none; }
+  .lx-bar-fill { height: 100%; border-radius: 999px; }
+
+  .lx-text { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .lx-text p { margin: 0; line-height: 1.55; max-width: 68ch; }
+  .lx-text.lx-small p { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-text p.lx-reading { background: var(--cds-chart-grid); border-radius: 4px; box-shadow: 0 0 0 4px var(--cds-chart-grid); }
+
+  .lx-size { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .lx-size-row { display: grid; grid-template-columns: 4rem 1fr; gap: var(--cds-gap-sm); align-items: center; }
+  .lx-size-bar { height: 1.75rem; border-radius: 4px; display: flex; align-items: center; padding-inline: var(--cds-pad-sm); min-width: max-content; }
+  .lx-size-bar span { font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; color: var(--color-bg); font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+
+  .lx-fuentes td, .lx-fuentes th { text-align: left !important; white-space: normal !important; position: static !important; }
+  .lx-fuentes td:first-child { min-width: 12rem; }
+  .lx-fuentes td:nth-child(2) { min-width: 14rem; color: var(--color-fg-muted); }
+  .lx-fuentes a { color: var(--color-fg); }
+  .lx-tipo { display: inline-block; font-size: var(--cds-font-size-caption); padding: 1px var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); white-space: nowrap; }
+  .lx-tipo.ofi { color: var(--color-ok); border-color: currentColor; }
+  .lx-tipo.pre { color: var(--color-warn); border-color: currentColor; }
+  .lx-tipo.adm { color: var(--color-fg-muted); }
+  .lx-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
+  .lx-credito { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); text-align: center; }
+  .lx-cob { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+  .lx-cob-m { display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+  .lx-cob-l { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .lx-cob-r { display: grid; grid-template-columns: 3.5rem 1fr 3.75rem; gap: var(--cds-gap-sm); align-items: center; font-size: var(--cds-font-size-caption); }
+  .lx-cob-track { height: .75rem; border-radius: 999px; background: var(--cds-chart-grid); overflow: hidden; }
+  .lx-cob-fill { height: 100%; border-radius: 999px; }
+  .lx-cob-v { text-align: right; font-variant-numeric: tabular-nums; font-weight: var(--cds-font-weight-medium); }
+  .lx-legalbox { overflow-x: auto; margin-inline: calc(var(--cds-pad-lg) * -1); padding-inline: var(--cds-pad-lg); }
+  .lx-legal { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); line-height: 1.45; table-layout: fixed; }
+  .lx-legal th { text-align: left; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+  .lx-legal th:nth-child(1) { width: 20%; } .lx-legal th:nth-child(2), .lx-legal th:nth-child(3) { width: 33%; } .lx-legal th:nth-child(4) { width: 14%; }
+  .lx-legal td { padding: var(--cds-pad-md) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .lx-legal tbody tr:last-child td { border-bottom: 0; }
+  .lx-legal tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--color-panel) 92%, var(--color-fg) 8%); }
+  .lx-legal td.lx-tema { font-weight: var(--cds-font-weight-medium); }
+  .lx-legal td.lx-fav-td.peru { box-shadow: inset 3px 0 0 var(--lx-peru); }
+  .lx-favs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
+  .lx-fav { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--cds-font-size-caption); padding: 2px var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); white-space: nowrap; }
+  .lx-fav::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-fg-muted); }
+  .lx-fav.peru::before { background: var(--lx-peru); } .lx-fav.chile::before { background: var(--lx-chile); }
+  .lx-fav.similar::before { background: var(--color-ok); } .lx-fav.depende::before { background: var(--color-warn); } .lx-fav.distinto::before { background: var(--cds-chart-axis); }
+  @media (max-width: 46rem) {
+    .lx-legalbox { overflow: visible; margin-inline: 0; padding-inline: 0; }
+    .lx-legal, .lx-legal tbody, .lx-legal tr, .lx-legal td { display: block; width: 100%; }
+    .lx-legal thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .lx-legal tr { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); margin-bottom: var(--cds-gap-sm); }
+    .lx-legal tbody tr:nth-child(even) td { background: none; }
+    .lx-legal td { border: 0; padding: var(--cds-pad-xs) 0; }
+    .lx-legal td.lx-tema { font-size: var(--cds-font-size-heading); padding-bottom: var(--cds-pad-sm); }
+    .lx-legal td[data-label]::before { content: attr(data-label); display: block; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); margin-bottom: 2px; }
+  }
+  .lx-sources { display: flex; flex-direction: column; gap: var(--cds-gap-xs); padding: 0; margin: 0; list-style: none; font-size: var(--cds-font-size-caption); }
+  .lx-sources a { color: var(--color-fg-muted); }
+
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  @media (prefers-reduced-motion: no-preference) {
+    .lx-page:not([hidden]) { animation: lx-in var(--cds-dur-slow) var(--cds-ease-out); }
+    @keyframes lx-in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="lx" id="lx">
+  <header class="lx-head" id="encabezado">
+    <div class="lx-head-txt">
+      <h1>AFP Chile y Perú</h1>
+      <p class="lx-take" id="takeaway">En los 12 meses a septiembre de 2026, el Fondo 3 de Perú ganó <b class="dash-skeleton" data-source="peru" data-field="r12m_sep2026" data-where="fondo=3">—</b> real, mientras el Fondo E de Chile cerró en <b class="dash-skeleton" data-source="chile" data-field="r12m_sep2026" data-where="fondo=E">—</b>.</p>
+      <p class="lx-sub">Rentabilidad real de los fondos de pensiones, descontada la inflación de cada país</p>
+    </div>
+    <div class="lx-actions">
+      <button class="lx-oir" type="button" data-leer="resumen" aria-pressed="false"></button>
+    </div>
+  </header>
+
+  <nav class="lx-tabs" role="tablist" aria-label="Secciones del tablero">
+    <button class="lx-tab" role="tab" id="tab-resumen" data-page="resumen" aria-selected="true">Resumen</button>
+    <button class="lx-tab" role="tab" id="tab-tablas" data-page="tablas" aria-selected="false">Rentabilidad</button>
+    <button class="lx-tab" role="tab" id="tab-historico" data-page="historico" aria-selected="false">Histórico</button>
+    <button class="lx-tab" role="tab" id="tab-fondos" data-page="fondos" aria-selected="false">Tipos de fondo</button>
+    <button class="lx-tab" role="tab" id="tab-legal" data-page="legal" aria-selected="false">Comparación legal</button>
+    <button class="lx-tab" role="tab" id="tab-analisis" data-page="analisis" aria-selected="false">Análisis</button>
+    <button class="lx-tab" role="tab" id="tab-fuentes" data-page="fuentes" aria-selected="false">Fuentes</button>
+  </nav>
+
+  <!-- RESUMEN -->
+  <section class="lx-page" id="resumen" role="tabpanel" aria-labelledby="tab-resumen">
+    <div class="lx-kpis" id="kpis">
+      <div class="lx-card lx-kpi" id="kpi-alza">
+        <div class="lx-kpi-l">Mayor alza · 12 meses a sep-2026</div>
+        <div class="lx-kpi-v dash-skeleton" data-source="peru" data-field="r12m_sep2026" data-where="fondo=3">—</div>
+        <div class="lx-kpi-s">Perú · Fondo 3</div>
+      </div>
+      <div class="lx-card lx-kpi" id="kpi-caida">
+        <div class="lx-kpi-l">Mayor caída · 12 meses a sep-2026</div>
+        <div class="lx-kpi-v dash-skeleton" data-source="chile" data-field="r12m_sep2026" data-where="fondo=E">—</div>
+        <div class="lx-kpi-s">Chile · Fondo E</div>
+      </div>
+      <div class="lx-card lx-kpi" id="kpi-2025">
+        <div class="lx-kpi-l">Mejor fondo en 2025</div>
+        <div class="lx-kpi-v dash-skeleton" data-source="peru" data-field="r2025" data-where="fondo=3">—</div>
+        <div class="lx-kpi-s">Perú · Fondo 3</div>
+      </div>
+      <div class="lx-card lx-kpi" id="kpi-hist">
+        <div class="lx-kpi-l">Mejor promedio anual histórico</div>
+        <div class="lx-kpi-v dash-skeleton" data-source="chile" data-field="prom_2002_2026" data-where="fondo=A">—</div>
+        <div class="lx-kpi-s">Chile · Fondo A, desde 2002</div>
+      </div>
+    </div>
+
+    <div class="lx-card" id="comparativo">
+      <div class="lx-card-head">
+        <div>
+          <h2>Los nueve fondos, lado a lado</h2>
+          <p class="lx-note" id="cmp-note">Rentabilidad real de cada fondo, del más riesgoso al más conservador en cada país.</p>
+        </div>
+        <div class="lx-seg" role="group" aria-label="Periodo">
+          <button type="button" data-mode="r12m" aria-pressed="true">12 meses</button>
+          <button type="button" data-mode="r2025" aria-pressed="false">2025</button>
+          <button type="button" data-mode="hist" aria-pressed="false">Promedio histórico</button>
+          <button class="lx-oir" type="button" data-grafico="cmp" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+        </div>
+      </div>
+      <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span><span>Agrupados por perfil de riesgo: cada fondo junto a su par del otro país</span></div>
+      <div class="lx-chart" id="cmp-chart" data-source="chile peru equivalencias" style="min-height: 24rem"></div>
+    </div>
+
+    <div class="lx-card" id="pares-card">
+      <div class="lx-card-head">
+        <div>
+          <h2>Fondos comparables, lado a lado</h2>
+          <p class="lx-note">Cada fila une un fondo chileno con su equivalente peruano. La diferencia es Perú menos Chile, en puntos porcentuales, para los 12 meses a septiembre de 2026.</p>
+        </div>
+        <button class="lx-oir" type="button" data-tabla="tabla-pares" data-titulo="Fondos comparables lado a lado" aria-pressed="false"></button>
+      </div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-pares" data-source="pares" data-row-key="perfil">
+          <thead><tr>
+            <th data-field="perfil">Perfil</th>
+            <th data-field="chile">Chile</th>
+            <th data-field="peru">Perú</th>
+            <th data-field="chile_12m">Chile · 12 meses</th>
+            <th data-field="peru_12m">Perú · 12 meses</th>
+            <th data-field="dif_12m">Diferencia</th>
+            <th data-field="chile_2025">Chile · 2025</th>
+            <th data-field="peru_2025">Perú · 2025</th>
+            <th data-field="chile_hist">Chile · promedio anual</th>
+            <th data-field="peru_hist">Perú · promedio anual</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="lx-note">El par del Fondo E chileno con el Fondo 0 peruano es aproximado: el E invierte en bonos de largo plazo y el 0 en instrumentos de corto plazo. El Fondo B chileno no tiene par en Perú.</p>
+    </div>
+
+    <div class="lx-grid">
+      <div class="lx-card" id="tamano">
+        <div class="lx-card-head">
+          <div>
+            <h2>Tamaño de cada sistema</h2>
+            <p class="lx-note">Fondos administrados en millones de dólares.</p>
+          </div>
+          <button class="lx-oir" type="button" data-grafico="size" data-grupos="tamano" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+        </div>
+        <div class="lx-size" id="size-chart" data-source="patrimonio" style="min-height: 4rem"></div>
+        <div class="lx-text lx-small" data-source="textos" data-grupo="tamano"></div>
+      </div>
+      <div class="lx-card" id="lectura-2026">
+        <div class="lx-card-head">
+          <div><h2>Lo que pasó en el último año</h2></div>
+          <button class="lx-oir" type="button" data-grupos="a2026" aria-pressed="false"></button>
+        </div>
+        <div class="lx-text" data-source="textos" data-grupo="a2026"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RENTABILIDAD (TABLAS) -->
+  <section class="lx-page" id="tablas" role="tabpanel" aria-labelledby="tab-tablas" hidden>
+    <div class="lx-card" id="tabla-chile-card">
+      <div class="lx-card-head">
+        <div>
+          <h2>Chile · multifondos</h2>
+          <p class="lx-note">Rentabilidad real deflactada por UF, promedio del sistema.</p>
+        </div>
+        <button class="lx-oir" type="button" data-tabla="tabla-chile" data-titulo="Tabla de Chile" aria-pressed="false"></button>
+      </div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-chile" data-source="chile" data-row-key="fondo">
+          <thead><tr>
+            <th data-field="fondo">Fondo</th>
+            <th data-field="perfil">Perfil</th>
+            <th data-field="par_peru">Su par en Perú</th>
+            <th data-field="r2025">2025 (ene–dic)</th>
+            <th data-field="ene_sep_2026">Ene–sep 2026</th>
+            <th data-field="r12m_sep2026">12 meses a sep-2026</th>
+            <th data-field="prom_2002_2026">Promedio anual sep-2002 a sep-2026</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lx-text lx-small" data-source="textos" data-grupo="nota_chile"></div>
+    </div>
+
+    <div class="lx-card" id="tabla-peru-card">
+      <div class="lx-card-head">
+        <div>
+          <h2>Perú · fondos 3 a 0</h2>
+          <p class="lx-note">Rentabilidad real deflactada por el IPC de Lima. Ordenados del más riesgoso al más conservador, igual que Chile.</p>
+        </div>
+        <button class="lx-oir" type="button" data-tabla="tabla-peru" data-titulo="Tabla de Perú" aria-pressed="false"></button>
+      </div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-peru" data-source="peru" data-row-key="fondo">
+          <thead><tr>
+            <th data-field="fondo">Fondo</th>
+            <th data-field="perfil">Perfil</th>
+            <th data-field="par_chile">Su par en Chile</th>
+            <th data-field="r2025">2025 (ene–dic)</th>
+            <th data-field="r12m_ago2026">12 meses a ago-2026</th>
+            <th data-field="r12m_sep2026">12 meses a sep-2026</th>
+            <th data-source="peru_hist" data-field="promedio">Promedio anual sep-2005 a sep-2026</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lx-text lx-small" data-source="textos" data-grupo="nota_peru"></div>
+    </div>
+  </section>
+
+  <!-- HISTÓRICO -->
+  <section class="lx-page" id="historico" role="tabpanel" aria-labelledby="tab-historico" hidden>
+    <div class="lx-grid">
+      <div class="lx-card" id="hist-promedios">
+        <div class="lx-card-head">
+          <div>
+            <h2>Promedio anual real de largo plazo</h2>
+            <p class="lx-note">Chile desde septiembre de 2002 y Perú desde septiembre de 2005, o desde la creación del fondo si es posterior.</p>
+          </div>
+          <button class="lx-oir" type="button" data-grafico="hist" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+        </div>
+        <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span></div>
+        <div class="lx-chart" id="hist-chart" data-source="chile peru equivalencias" style="min-height: 19rem"></div>
+      </div>
+      <div class="lx-card" id="hist-lectura">
+        <div class="lx-card-head">
+          <div><h2>Lectura del largo plazo</h2></div>
+          <button class="lx-oir" type="button" data-grupos="ahist" aria-pressed="false"></button>
+        </div>
+        <div class="lx-text" data-source="textos" data-grupo="ahist"></div>
+      </div>
+    </div>
+    <div class="lx-card" id="serie-f2">
+      <div class="lx-card-head">
+        <div>
+          <h2>Perú · Fondo 2, año a año</h2>
+          <p class="lx-note">Rentabilidad real de los 12 meses a cada septiembre, promedio del sistema. La barra más clara es el dato de 2026, que viene de prensa.</p>
+        </div>
+        <button class="lx-oir" type="button" data-grafico="f2" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+      </div>
+      <div class="lx-chart" id="f2-chart" data-source="peru_f2" style="min-height: 16rem"></div>
+    </div>
+  </section>
+
+  <!-- TIPOS DE FONDO -->
+  <section class="lx-page" id="fondos" role="tabpanel" aria-labelledby="tab-fondos" hidden>
+    <div class="lx-card" id="equivalencias-card">
+      <div class="lx-card-head">
+        <div>
+          <h2>Qué fondo se parece a cuál</h2>
+          <p class="lx-note">Máximo legal de inversión en acciones de cada fondo, por perfil de riesgo.</p>
+        </div>
+        <button class="lx-oir" type="button" data-tabla="tabla-equiv" data-titulo="Equivalencias entre fondos" data-grupos="nota_equiv" aria-pressed="false"></button>
+      </div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-equiv" data-source="equivalencias" data-row-key="perfil">
+          <thead><tr>
+            <th data-field="perfil">Perfil</th>
+            <th data-field="chile">Chile</th>
+            <th data-field="chile_max_rv">Máximo en acciones</th>
+            <th data-field="peru">Perú</th>
+            <th data-field="peru_max_rv">Máximo en acciones</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lx-text lx-small" data-source="textos" data-grupo="nota_equiv"></div>
+    </div>
+    <div class="lx-card" id="diferencias-card">
+      <div class="lx-card-head">
+        <div><h2>Diferencias y similitudes</h2></div>
+        <button class="lx-oir" type="button" data-grupos="diferencias" aria-pressed="false"></button>
+      </div>
+      <div class="lx-text" data-source="textos" data-grupo="diferencias"></div>
+    </div>
+  </section>
+
+  <!-- COMPARACIÓN LEGAL -->
+  <section class="lx-page" id="legal" role="tabpanel" aria-labelledby="tab-legal" hidden>
+    <div class="lx-card" id="cobertura">
+      <div class="lx-card-head">
+        <div>
+          <h2>¿Cuánta gente cotiza en una AFP?</h2>
+          <p class="lx-note">Cotizantes son quienes aportaron en el mes. Afiliados son todos los que tienen cuenta, aporten o no.</p>
+        </div>
+        <button class="lx-oir" type="button" data-grafico="cobertura" data-grupos="cobertura" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span></div>
+      <div class="lx-cob" id="cob-chart" data-source="cobertura" style="min-height: 14rem"></div>
+      <div class="lx-tablebox">
+        <table class="lx-table" id="tabla-cobertura" data-source="cobertura" data-row-key="pais">
+          <thead><tr>
+            <th data-field="pais">País</th>
+            <th data-field="poblacion">Población</th>
+            <th data-field="fuerza_trabajo">Fuerza de trabajo</th>
+            <th data-field="afiliados">Afiliados a AFP</th>
+            <th data-field="cotizantes">Cotizantes</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lx-text lx-small" data-source="textos" data-grupo="cobertura"></div>
+      <p class="lx-note" id="cob-cortes"></p>
+    </div>
+
+    <div class="lx-card" id="legal-resumen">
+      <div class="lx-card-head">
+        <div>
+          <h2>Comparación legal en resumen</h2>
+          <p class="lx-note">Qué reglas favorecen más al afiliado en cada país.</p>
+        </div>
+        <button class="lx-oir" type="button" data-grupos="legal" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-text" data-source="textos" data-grupo="legal"></div>
+      <div class="lx-favs" aria-label="Significado de las etiquetas">
+        <span class="lx-fav peru">Perú</span><span class="lx-fav chile">Chile</span><span class="lx-fav similar">Similar</span><span class="lx-fav depende">Depende</span><span class="lx-fav distinto">Distinto</span>
+      </div>
+    </div>
+
+    <div class="lx-card" id="legal-afiliacion">
+      <div class="lx-card-head">
+        <div><h2>Afiliación</h2></div>
+        <button class="lx-oir" type="button" data-legal="afiliacion" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-afiliacion" data-source="legal" data-row-key="tema" data-grupo-legal="afiliacion">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-aportes">
+      <div class="lx-card-head">
+        <div><h2>Aportes y costos</h2></div>
+        <button class="lx-oir" type="button" data-legal="aportes" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-aportes" data-source="legal" data-row-key="tema" data-grupo-legal="aportes">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-fondos">
+      <div class="lx-card-head">
+        <div><h2>Fondos e inversión</h2></div>
+        <button class="lx-oir" type="button" data-legal="fondos" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-fondos" data-source="legal" data-row-key="tema" data-grupo-legal="fondos">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-retiros">
+      <div class="lx-card-head">
+        <div><h2>Retiros y pensión</h2></div>
+        <button class="lx-oir" type="button" data-legal="retiros" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-retiros" data-source="legal" data-row-key="tema" data-grupo-legal="retiros">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="legal-reformas">
+      <div class="lx-card-head">
+        <div><h2>Reformas recientes</h2></div>
+        <button class="lx-oir" type="button" data-legal="reformas" data-etiqueta="Escuchar" aria-pressed="false"></button>
+      </div>
+      <div class="lx-legalbox">
+        <table class="lx-legal" id="tabla-legal-reformas" data-source="legal" data-row-key="tema" data-grupo-legal="reformas">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="peru"><span class="lx-chip"><i class="lx-sw1"></i><span>Perú</span></span></th>
+            <th data-field="chile"><span class="lx-chip"><i class="lx-sw0"></i><span>Chile</span></span></th>
+            <th data-field="favorece">Más favorable al afiliado</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANÁLISIS -->
+  <section class="lx-page" id="analisis" role="tabpanel" aria-labelledby="tab-analisis" hidden>
+    <div class="lx-card-head">
+      <div>
+        <h2 class="lx-sec-title">Análisis comparativo</h2>
+        <p class="lx-note">Cada bloque se puede escuchar por separado, o todo seguido.</p>
+      </div>
+      <button class="lx-oir" type="button" data-grupos="a2025 a2026 ahist tamano comparar" aria-pressed="false" data-etiqueta="Escuchar todo"></button>
+    </div>
+    <div class="lx-grid">
+      <div class="lx-card" id="an-2025">
+        <div class="lx-card-head"><div><h3>2025: buen año en los dos países</h3></div><button class="lx-oir" type="button" data-grupos="a2025" aria-pressed="false"></button></div>
+        <div class="lx-text" data-source="textos" data-grupo="a2025"></div>
+      </div>
+      <div class="lx-card" id="an-2026">
+        <div class="lx-card-head"><div><h3>2026: los países se separan</h3></div><button class="lx-oir" type="button" data-grupos="a2026" aria-pressed="false"></button></div>
+        <div class="lx-text" data-source="textos" data-grupo="a2026"></div>
+      </div>
+      <div class="lx-card" id="an-hist">
+        <div class="lx-card-head"><div><h3>Histórico: el premio por riesgo</h3></div><button class="lx-oir" type="button" data-grupos="ahist" aria-pressed="false"></button></div>
+        <div class="lx-text" data-source="textos" data-grupo="ahist"></div>
+      </div>
+      <div class="lx-card" id="an-comparar">
+        <div class="lx-card-head"><div><h3>Antes de comparar</h3></div><button class="lx-oir" type="button" data-grupos="comparar" aria-pressed="false"></button></div>
+        <div class="lx-text" data-source="textos" data-grupo="comparar"></div>
+      </div>
+      <div class="lx-card" id="an-archivo">
+        <div class="lx-card-head"><div><h3>Qué se corrigió del archivo original</h3></div><button class="lx-oir" type="button" data-grupos="archivo" aria-pressed="false"></button></div>
+        <div class="lx-text" data-source="textos" data-grupo="archivo"></div>
+      </div>
+    </div>
+  </section>
+  <!-- FUENTES -->
+  <section class="lx-page" id="fuentes" role="tabpanel" aria-labelledby="tab-fuentes" hidden>
+    <div class="lx-card" id="fuentes-chile">
+      <h2>Chile</h2>
+      <div class="lx-tablebox">
+        <table class="lx-table lx-fuentes" id="tabla-fuentes-chile">
+          <thead><tr><th>Fuente</th><th>Qué aporta</th><th>Tipo</th></tr></thead>
+          <tbody>
+          <tr><td><a href="https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php?tiprent=FP" target="_blank" rel="noopener">Superintendencia de Pensiones · rentabilidad real</a></td><td>Últimos 12 meses y promedios anuales desde 2002 y desde 1981</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-17161.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre de septiembre</a></td><td>Acumulado de enero a septiembre de 2026 y monto total en dólares</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-16873.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre de 2025</a></td><td>Rentabilidad real del año 2025</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.df.cl/senal-df/senales-financieras/la-apuesta-de-las-afp-que-gatillo-la-crisis-de-rentabilidad-del-fondo-e" target="_blank" rel="noopener">Diario Financiero · la apuesta que golpeó al Fondo E</a></td><td>Efecto de los swaps de tasas en el Fondo E</td><td><span class="lx-tipo pre">Prensa</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="fuentes-peru">
+      <h2>Perú</h2>
+      <div class="lx-tablebox">
+        <table class="lx-table lx-fuentes" id="tabla-fuentes-peru">
+          <thead><tr><th>Fuente</th><th>Qué aporta</th><th>Tipo</th></tr></thead>
+          <tbody>
+          <tr><td><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/sistema-privado-de-pensiones-m" target="_blank" rel="noopener">BCRP · series del sistema privado de pensiones</a></td><td>Fondo 2 año a año, su promedio desde 2005 y monto total en dólares</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01271PM/html" target="_blank" rel="noopener">BCRP · IPC de Lima Metropolitana</a></td><td>Inflación usada para pasar de rentabilidad nominal a real</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://intranet2.sbs.gob.pe/estadistica/financiera/2026/Junio/SP-0003-jn2026.PDF" target="_blank" rel="noopener">SBS · boletín del sistema privado de pensiones, junio</a></td><td>Rentabilidad nominal anual y de largo plazo por fondo</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.rankia.pe/blog/sistema-privado-pensiones/7487578-rentabilidad-afp-agosto-2026-habitat-fondo-3" target="_blank" rel="noopener">Rankia Perú · boletín de la SBS de agosto</a></td><td>Rentabilidad de 12 meses a agosto de 2026, nominal y real</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          <tr><td><a href="https://www.infobae.com/peru/2026/01/13/rentabilidad-de-tu-afp-consulta-cuanto-crecio-tu-dinero-en-2025-segun-el-fondo/" target="_blank" rel="noopener">Infobae · rentabilidad de las AFP en 2025</a></td><td>Rentabilidad nominal de 2025 del promedio del sistema</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          <tr><td><a href="https://cdn01.sura.net.pe/integra/webapps/cercania/cms-lite/prod/resources/downloadable/rentabilidad/Rentabilidadesfondo3.pdf" target="_blank" rel="noopener">AFP Integra · rentabilidad por fondo</a></td><td>Promedio desde la creación de los fondos 0, 1 y 3</td><td><span class="lx-tipo adm">Administradora</span></td></tr>
+          <tr><td><a href="https://www.biobiochile.cl/noticias/economia/actualidad-economica/2026/10/16/como-chile-y-peru-teniendo-afp-tan-similares-logran-resultados-distintos-en-los-fondos-de-pensiones.shtml" target="_blank" rel="noopener">BioBioChile · Chile y Perú, resultados distintos</a></td><td>Rentabilidad real de 12 meses a septiembre de 2026</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="fuentes-legal">
+      <h2>Normas, reformas y cobertura</h2>
+      <ul class="lx-sources">
+        <li><a href="https://busquedas.elperuano.pe/dispositivo/NL/2328060-1" target="_blank" rel="noopener">El Peruano · Ley de Modernización del Sistema Previsional Peruano</a></li>
+        <li><a href="https://larepublica.pe/economia/2026/05/01/onp-y-afp-afiliados-podran-trasladarse-entre-ambos-sistemas-desde-setiembre-tras-reglamento-de-la-reforma-previsional-hnews-27247" target="_blank" rel="noopener">La República · traslados entre la ONP y las AFP</a></li>
+        <li><a href="https://www.peru-retail.com/aprueban-reglamento-de-la-reforma-de-pensiones-que-cambios-hay-y-desde-cuando-aplican/" target="_blank" rel="noopener">Perú Retail · reglamento de la reforma peruana</a></li>
+        <li><a href="https://sueldojusto.pe/blog/comisiones-afp/" target="_blank" rel="noopener">Sueldo Justo · comisiones y prima de seguro en Perú</a></li>
+        <li><a href="https://www.bcrp.gob.pe/docs/Publicaciones/Reporte-Estabilidad-Financiera/2018/Noviembre/ref-noviembre-2018-recuadro-5.pdf" target="_blank" rel="noopener">BCRP · rentabilidad mínima y encaje</a></li>
+        <li><a href="https://intranet2.sbs.gob.pe/estadistica/financiera/2026/Junio/SP-0003-jn2026.PDF" target="_blank" rel="noopener">SBS · afiliados y cotizantes de Perú</a></li>
+        <li><a href="https://www.gob.pe/institucion/inei/noticias/1399446-inei-poblacion-del-peru-totalizo-34-millones-157-mil-732-habitantes-al-2025" target="_blank" rel="noopener">INEI · población del Perú, censo</a></li>
+        <li><a href="https://previsionsocial.gob.cl/wp-content/uploads/2025/08/Nota-Tecnica-Reforma-de-Pensiones-Ley-N°21.735.pdf" target="_blank" rel="noopener">Subsecretaría de Previsión Social · nota técnica de la reforma chilena</a></li>
+        <li><a href="https://www.fundssociety.com/es/noticias/mercados/el-fin-de-una-era-chile-se-despide-de-los-multifondos/" target="_blank" rel="noopener">Funds Society · fin de los multifondos en Chile</a></li>
+        <li><a href="https://www.latercera.com/pulso/noticia/la-mitad-de-los-trabajadores-formales-en-chile-gana-mas-de-1-millon-al-mes-segun-datos-de-las-afp/" target="_blank" rel="noopener">La Tercera · cotizantes de las AFP chilenas</a></li>
+        <li><a href="https://www.rankia.cl/blog/fondos-pensiones-afp/3111937-mejores-afps-chile" target="_blank" rel="noopener">Rankia Chile · afiliados de las AFP chilenas</a></li>
+        <li><a href="https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/nacional/ene-nacional-335.pdf" target="_blank" rel="noopener">INE Chile · fuerza de trabajo e informalidad</a></li>
+        <li><a href="https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2026/01/28/el-ine-proyecta-que-en-2026-la-poblaci%C3%B3n-de-chile-alcanzar%C3%A1-las-20.150.948-personas-llegando-a-su-nivel-m%C3%A1ximo-a-mediados-de-la-pr%C3%B3xima-d%C3%A9cada" target="_blank" rel="noopener">INE Chile · población proyectada</a></li>
+      </ul>
+    </div>
+    <div class="lx-card" id="fuentes-calculos">
+      <h2>Cálculos propios</h2>
+      <ul class="lx-list">
+        <li>Rentabilidad real de Perú en 2025 y del Fondo 1 a agosto: rentabilidad nominal de la SBS descontando la inflación del IPC de Lima.</li>
+        <li>Promedio anual del Fondo 2 de Perú desde 2005: rentabilidades reales de 12 meses del BCRP encadenadas año a año.</li>
+        <li>Promedio de los fondos 0, 1 y 3 de Perú: datos nominales de AFP Integra deflactados con el IPC de Lima. No es el promedio del sistema.</li>
+        <li>Pares de fondos y diferencias entre países: restas simples entre las cifras de cada fondo.</li>
+        <li>Máximos de inversión en acciones: regulación general conocida de cada país, no verificada contra el régimen vigente.</li>
+      </ul>
+    </div>
+  </section>
+  <footer class="lx-credito" id="credito">© 2026 Gonzalo Villarreal Farah · Hecho con Claude de Anthropic</footer>
+</div>
+
+<script>
+(() => {
+  // ---------- formato ----------
+  const nf2 = new Intl.NumberFormat('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const nf0 = new Intl.NumberFormat('es-CL', { maximumFractionDigits: 0 });
+  const num = (v) => (v === null || v === undefined || v === '' || Number.isNaN(Number(v))) ? null : Number(v);
+  const pct = (v) => { const n = num(v); return n === null ? '—' : nf2.format(n) + ' %'; };
+  const tone = (el, v) => { const n = num(v); el.classList.toggle('lx-neg', n !== null && n < 0); };
+  const rowsOf = (id) => { const d = dash.data(id); return d.status === 'ok' && Array.isArray(d.data) ? d.data : null; };
+  const statusOf = (id) => dash.data(id).status;
+  const COLOR = () => [dash.colors[0], dash.colors[1]];
+  document.getElementById('lx').style.setProperty('--lx-chile', dash.colors[0]);
+  document.getElementById('lx').style.setProperty('--lx-peru', dash.colors[1]);
+  document.querySelectorAll('.lx-sw0').forEach((i) => { i.style.background = dash.colors[0]; });
+  document.querySelectorAll('.lx-sw1').forEach((i) => { i.style.background = dash.colors[1]; });
+
+  // ---------- cálculo: promedio de Perú con año de inicio ----------
+  dash.calc('peru_hist', {
+    inputs: ['peru'],
+    title: 'Perú: promedio con año de inicio',
+    description: 'Promedio anual real de cada fondo peruano, con el año de inicio cuando el fondo empezó después de septiembre de 2005.',
+    fn: (peru) => peru.map((r) => ({
+      fondo: String(r.fondo),
+      promedio: Number(r.prom_hist).toFixed(2).replace('.', ',') + ' %' + (r.hist_desde ? ' (desde ' + r.hist_desde + ')' : ''),
+    })),
+  });
+
+  // ---------- cálculo: pares de fondos comparables ----------
+  dash.calc('pares', {
+    inputs: ['equivalencias', 'chile', 'peru'],
+    title: 'Pares de fondos comparables',
+    description: 'Une cada fondo chileno con su equivalente peruano por perfil de riesgo; la diferencia es Perú menos Chile en los 12 meses a septiembre de 2026.',
+    fn: (equivalencias, chile, peru) => {
+      const pares = equivalencias
+        .filter((e) => e.chile !== '—' && e.peru !== '—')
+        .map((e) => ({ orden: Number(e.orden), perfil: e.perfil, c: String(e.chile), p: String(e.peru) }));
+      pares.push({ orden: 5, perfil: 'Más conservador (aproximado)', c: 'E', p: '0' });
+      return pares.sort((a, b) => a.orden - b.orden).map((x) => {
+        const c = chile.find((r) => String(r.fondo) === x.c);
+        const p = peru.find((r) => String(r.fondo) === x.p);
+        return {
+          perfil: x.perfil,
+          chile: 'Fondo ' + x.c,
+          peru: 'Fondo ' + x.p,
+          chile_12m: Number(c.r12m_sep2026),
+          peru_12m: Number(p.r12m_sep2026),
+          dif_12m: Math.round((Number(p.r12m_sep2026) - Number(c.r12m_sep2026)) * 100) / 100,
+          chile_2025: Number(c.r2025),
+          peru_2025: Number(p.r2025),
+          chile_hist: Number(c.prom_2002_2026),
+          peru_hist: Number(p.prom_hist),
+        };
+      });
+    },
+  });
+
+  // ---------- lectura en voz ----------
+  const ICONS = '<svg class="lx-ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><svg class="lx-ico-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg><span class="lx-oir-t"></span>';
+  const TITULOS = {
+    a2025: '2025: buen año en los dos países.',
+    a2026: 'Lo que pasó en el último año.',
+    ahist: 'Histórico: el premio por riesgo.',
+    comparar: 'Antes de comparar.',
+    tamano: 'Tamaño de cada sistema.',
+    diferencias: 'Diferencias y similitudes entre los fondos.',
+    nota_equiv: 'Nota sobre los límites.',
+    archivo: 'Qué se corrigió del archivo original.',
+  };
+  const voz = (() => {
+    const ok = typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance !== 'undefined';
+    let activo = null;
+    let elegida = null;
+    let manual = false;
+    const sel = document.getElementById('lx-voz');
+    // Voces de juguete o caricaturescas que traen macOS y otros sistemas: nunca se eligen solas.
+    const JUGUETE = /\b(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|fred)\b/i;
+    const BUENAS = /(francisca|paulina|m[oó]nica|marisol|jorge|juan|diego|isabela|soledad|ang[eé]lica|sabina|dalia|elvira|[aá]lvaro|catalina|lorenzo|lupe|pe[nñ]elope|camila|valentina|tom[aá]s|lorena|gonzalo)/i;
+    const puntaje = (v) => {
+      if (!/^es/i.test(v.lang)) return -1000;
+      let s = 0;
+      if (JUGUETE.test(v.name)) s -= 500;
+      // voz elegida por el director: Marisol (mejorada); si el equipo no la tiene, sigue el orden de calidad
+      if (/marisol/i.test(v.name)) s += /(enhanced|mejorad)/i.test(v.name) ? 320 : 300;
+      if (/premium/i.test(v.name)) s += 60;
+      if (/(enhanced|mejorad)/i.test(v.name)) s += 45;
+      if (/(natural|neural|online)/i.test(v.name)) s += 55;
+      if (/google/i.test(v.name)) s += 40;
+      if (/siri/i.test(v.name)) s += 40;
+      if (BUENAS.test(v.name)) s += 15;
+      // castellano neutro latinoamericano primero (419, EE. UU., México); luego acentos regionales; España al final
+      if (/^es[-_](419|US|MX)/i.test(v.lang)) s += 80;
+      else if (/^es[-_](CL|CO|PE|AR)/i.test(v.lang)) s += 40;
+      return s;
+    };
+    const espanolas = () => {
+      try {
+        return window.speechSynthesis.getVoices().filter((v) => /^es/i.test(v.lang)).sort((a, b) => puntaje(b) - puntaje(a));
+      } catch (e) { return []; }
+    };
+    const llenarSelector = (vs) => {
+      if (!sel) return;
+      sel.replaceChildren(...vs.filter((v) => !JUGUETE.test(v.name)).map((v) => new Option(v.name + ' · ' + v.lang.replace('_', '-'), v.voiceURI)));
+      if (elegida) sel.value = elegida.voiceURI;
+      sel.parentElement.hidden = !sel.options.length;
+    };
+    const pick = () => {
+      const vs = espanolas();
+      if (!manual || !elegida || !vs.some((v) => v.voiceURI === elegida.voiceURI)) {
+        elegida = vs.length && puntaje(vs[0]) > -400 ? vs[0] : (vs[0] || null);
+      }
+      llenarSelector(vs);
+    };
+    if (ok) {
+      pick();
+      try { window.speechSynthesis.addEventListener('voiceschanged', pick); } catch (e) { /* navegadores antiguos */ }
+      if (sel) sel.addEventListener('change', () => {
+        const v = espanolas().find((x) => x.voiceURI === sel.value);
+        if (v) { elegida = v; manual = true; }
+      });
+    }
+    const MESES = { ene: 'enero', feb: 'febrero', mar: 'marzo', abr: 'abril', may: 'mayo', jun: 'junio', jul: 'julio', ago: 'agosto', sep: 'septiembre', oct: 'octubre', nov: 'noviembre', dic: 'diciembre' };
+    const limpiar = (t) => t
+      .replace(/\b(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)-(\d{4})/gi, (m, a, y) => MESES[a.toLowerCase()] + ' de ' + y)
+      .replace(/[−-](\d)/g, ' menos $1')
+      .replace(/\+(\d)/g, ' más $1')
+      .replace(/(\d)\s?pp\b/g, '$1 puntos')
+      .replace(/(\d)\s?%/g, '$1 por ciento')
+      .replace(/US\$/g, '')
+      .replace(/·/g, ',')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const trozos = (t) => (limpiar(t).match(/\S[\s\S]*?(?:[.!?;](?=\s|$)|$)/g) || []).map((s) => s.trim()).filter(Boolean);
+    const marcar = (btn, on) => {
+      btn.setAttribute('aria-pressed', String(on));
+      const t = btn.querySelector('.lx-oir-t');
+      if (t) t.textContent = on ? 'Detener' : (btn.dataset.etiqueta || 'Escuchar');
+    };
+    // audios grabados con la voz Marisol (mejorada): se buscan por la huella del texto limpio
+    const huella = (t) => { let h = 0x811c9dc5; for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ('0000000' + h.toString(16)).slice(-8); };
+    const limpio = (t) => trozos(t).join(' ');
+    let reproductor = null;
+    const parar = () => {
+      if (reproductor) { try { reproductor.pause(); } catch (e) { /* ya detenido */ } reproductor = null; }
+      if (ok) { try { window.speechSynthesis.cancel(); } catch (e) { /* nada que detener */ } }
+      if (activo) { marcar(activo, false); activo = null; }
+    };
+    const grabado = (texto) => { const mapa = window.AFP_AUDIO || {}; return mapa[huella(limpio(texto))] || null; };
+    const decir = (texto, btn) => {
+      if (activo === btn) { parar(); return; }
+      parar();
+      const src = grabado(texto);
+      if (src) {
+        const a = new Audio(src);
+        reproductor = a;
+        activo = btn;
+        marcar(btn, true);
+        const fin = () => { if (reproductor === a) reproductor = null; if (activo === btn) { marcar(btn, false); activo = null; } };
+        const respaldo = () => { const era = activo === btn; fin(); if (era) sintetizar(texto, btn); };
+        a.addEventListener('ended', fin);
+        a.addEventListener('error', respaldo);
+        const pr = a.play();
+        if (pr && pr.catch) pr.catch(respaldo);
+        return;
+      }
+      sintetizar(texto, btn);
+    };
+    const sintetizar = (texto, btn) => {
+      if (!ok) return;
+      if (!elegida) pick();
+      const partes = trozos(texto);
+      if (!partes.length) return;
+      activo = btn;
+      marcar(btn, true);
+      const fin = () => { if (activo === btn) { marcar(btn, false); activo = null; } };
+      partes.forEach((p, i) => {
+        const u = new window.SpeechSynthesisUtterance(p);
+        u.lang = elegida ? elegida.lang : 'es-CL';
+        if (elegida) u.voice = elegida;
+        u.rate = 0.95;
+        u.pitch = 1;
+        if (i === partes.length - 1) { u.onend = fin; }
+        u.onerror = (e) => { if (e && e.error !== 'interrupted' && e.error !== 'canceled') fin(); };
+        window.speechSynthesis.speak(u);
+      });
+    };
+    return { ok, decir, parar, marcar, huella, limpio, grabado };
+  })();
+
+  document.querySelectorAll('.lx-oir').forEach((b) => {
+    b.innerHTML = ICONS;
+    voz.marcar(b, false);
+    if (b.dataset.leer === 'resumen') b.dataset.etiqueta = 'Escuchar resumen';
+    voz.marcar(b, false);
+    if (!voz.ok && !window.AFP_AUDIO) { b.disabled = true; b.title = 'Este navegador no permite la lectura en voz alta.'; }
+  });
+
+  const parrafos = (grupo) => {
+    const t = rowsOf('textos');
+    if (!t) return [];
+    return t.filter((r) => r.grupo === grupo).sort((a, b) => Number(a.orden) - Number(b.orden)).map((r) => String(r.texto));
+  };
+  const leerTabla = (id) => {
+    const t = document.getElementById(id);
+    if (!t || !t.tHead) return '';
+    const heads = [...t.tHead.rows[0].cells].map((c) => c.textContent.trim());
+    return [...t.tBodies[0].rows].map((tr) => {
+      const cells = [...tr.cells].map((c) => c.textContent.trim());
+      return cells[0] + ': ' + heads.slice(1).map((h, i) => h + ', ' + cells[i + 1]).join('; ') + '.';
+    }).join(' ');
+  };
+  const textoPara = (b) => {
+    const partes = [];
+    if (b.dataset.leer === 'resumen') {
+      partes.push(document.querySelector('.lx-head h1').textContent + '.');
+      partes.push(document.getElementById('takeaway').textContent);
+      document.querySelectorAll('#kpis .lx-kpi').forEach((k) => {
+        partes.push(k.querySelector('.lx-kpi-l').textContent + ': ' + k.querySelector('.lx-kpi-v').textContent + ', ' + k.querySelector('.lx-kpi-s').textContent + '.');
+      });
+    }
+    if (b.dataset.grafico && EXPLICAR[b.dataset.grafico]) partes.push(EXPLICAR[b.dataset.grafico]());
+    if (b.dataset.legal) partes.push(leerLegal(b.dataset.legal));
+    if (b.dataset.tabla) {
+      partes.push((b.dataset.titulo || '') + '.');
+      partes.push(leerTabla(b.dataset.tabla));
+    }
+    (b.dataset.grupos || '').split(/\s+/).filter(Boolean).forEach((g) => {
+      const ps = parrafos(g);
+      if (!ps.length) return;
+      if (TITULOS[g]) partes.push(TITULOS[g]);
+      partes.push(...ps);
+    });
+    return partes.join(' ');
+  };
+  window.AFP_TEXTOS = () => {
+    const out = new Map();
+    const antes = modo;
+    document.querySelectorAll('.lx-oir').forEach((b) => {
+      const modos = b.dataset.grafico === 'cmp' ? Object.keys(MODOS) : [null];
+      modos.forEach((md) => {
+        if (md) modo = md;
+        const t = voz.limpio(textoPara(b));
+        if (t) out.set(voz.huella(t), t);
+      });
+    });
+    modo = antes;
+    return [...out].map(([huella, texto]) => ({ huella, texto }));
+  };
+  document.getElementById('lx').addEventListener('click', (e) => {
+    const b = e.target.closest('.lx-oir');
+    if (!b || b.disabled) return;
+    voz.decir(textoPara(b), b);
+  });
+
+  // ---------- pestañas ----------
+  const pages = [...document.querySelectorAll('.lx-page')];
+  const tabs = [...document.querySelectorAll('.lx-tab')];
+  let actual = 'resumen';
+  const mostrar = (id, enlazar) => {
+    if (!pages.some((p) => p.id === id)) id = 'resumen';
+    actual = id;
+    pages.forEach((p) => { p.hidden = p.id !== id; });
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.page === id)));
+    if (enlazar) dash.setLink(id);
+    dibujarGraficos();
+  };
+  tabs.forEach((t) => t.addEventListener('click', () => mostrar(t.dataset.page, true)));
+
+  // ---------- tooltip ----------
+  const tip = (box) => {
+    let el = box.querySelector('.lx-tip');
+    if (!el) { el = document.createElement('div'); el.className = 'lx-tip'; el.hidden = true; box.appendChild(el); }
+    return {
+      show(ev, k, v) {
+        el.replaceChildren();
+        const a = document.createElement('div'); a.className = 'k'; a.textContent = k;
+        const b = document.createElement('div'); b.textContent = v;
+        el.append(a, b);
+        el.hidden = false;
+        const r = box.getBoundingClientRect();
+        const x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+        const y = (ev.touches ? ev.touches[0].clientY : ev.clientY) - r.top;
+        const w = el.offsetWidth;
+        el.style.left = Math.max(0, Math.min(r.width - w, x - w / 2)) + 'px';
+        el.style.top = Math.max(0, y - el.offsetHeight - 10) + 'px';
+      },
+      hide() { el.hidden = true; },
+    };
+  };
+  const falla = (box) => {
+    box.replaceChildren();
+    const d = document.createElement('div'); d.className = 'lx-fail'; d.textContent = 'No se pudo cargar';
+    box.appendChild(d);
+  };
+
+  // ---------- gráfico de barras horizontales (nueve fondos) ----------
+  let modo = 'r12m';
+  const MODOS = {
+    r12m: { ch: 'r12m_sep2026', pe: 'r12m_sep2026', nota: 'Rentabilidad real de los 12 meses a septiembre de 2026, del fondo más riesgoso al más conservador en cada país.', per: '12 meses a sep-2026' },
+    r2025: { ch: 'r2025', pe: 'r2025', nota: 'Rentabilidad real del año 2025 completo, de enero a diciembre.', per: 'Año 2025' },
+    hist: { ch: 'prom_2002_2026', pe: 'prom_hist', nota: 'Promedio anual real: Chile desde septiembre de 2002 y Perú desde septiembre de 2005, o desde la creación del fondo si es posterior.', per: 'Promedio anual' },
+  };
+  // filas agrupadas por perfil: cada fondo chileno junto a su par peruano
+  const filasNueve = (m) => {
+    const ch = rowsOf('chile'); const pe = rowsOf('peru'); const eq = rowsOf('equivalencias');
+    if (!ch || !pe || !eq) return null;
+    const out = [];
+    let y = 0;
+    [...eq].sort((a, b) => Number(a.orden) - Number(b.orden)).forEach((e, gi) => {
+      if (gi > 0) y += 10;
+      out.push({ head: true, label: e.perfil, y }); y += 20;
+      const c = ch.find((r) => String(r.fondo) === String(e.chile));
+      if (c) { out.push({ g: 0, label: 'Chile ' + c.fondo, v: num(c[m.ch]), extra: '', y }); y += 28; }
+      const p = pe.find((r) => String(r.fondo) === String(e.peru));
+      if (p) { out.push({ g: 1, label: 'Perú ' + p.fondo, v: num(p[m.pe]), extra: m === MODOS.hist && p.hist_desde ? ' (desde ' + p.hist_desde + ')' : '', y }); y += 28; }
+    });
+    return { rows: out, total: y };
+  };
+  const barrasH = (box, m) => {
+    const st = [statusOf('chile'), statusOf('peru'), statusOf('equivalencias')];
+    if (st.includes('error') || st.includes('connect') || st.includes('declined')) { falla(box); return; }
+    const res = filasNueve(m);
+    box.replaceChildren();
+    if (!res) return;
+    const all = res.rows;
+    const data = all.filter((d) => !d.head);
+    const W = Math.max(280, box.clientWidth);
+    const rowH = 28;
+    const H = res.total + 24;
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Rentabilidad real por fondo, ' + m.per);
+    // medir etiquetas
+    const meas = svg.append('g');
+    let lw = 0;
+    data.forEach((d) => { const t = meas.append('text').attr('class', 'lx-lbl').text(d.label); lw = Math.max(lw, t.node().getComputedTextLength()); });
+    let vw = 0;
+    data.forEach((d) => { const t = meas.append('text').attr('class', 'lx-val').text(pct(d.v) + d.extra); vw = Math.max(vw, t.node().getComputedTextLength()); });
+    meas.remove();
+    const vals = data.map((d) => d.v).filter((v) => v !== null);
+    const lo = Math.min(0, d3.min(vals)); const hi = Math.max(0, d3.max(vals));
+    const left = lw + 14 + (lo < 0 ? vw + 8 : 0);
+    const right = W - vw - 10;
+    const x = d3.scaleLinear([lo, hi], [left, Math.max(left + 40, right)]).nice();
+    // grilla
+    const ticks = x.ticks(Math.max(2, Math.floor((right - left) / 90)));
+    const gGrid = svg.append('g');
+    ticks.forEach((t) => {
+      gGrid.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', 0).attr('y2', H - 22).attr('stroke', 'var(--cds-chart-grid)');
+      gGrid.append('text').attr('x', x(t)).attr('y', H - 6).attr('text-anchor', 'middle').text(nf0.format(t) + ' %');
+    });
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H - 22).attr('stroke', 'var(--cds-chart-axis)');
+    const t = tip(box);
+    const colors = COLOR();
+    all.filter((d) => d.head).forEach((d) => {
+      svg.append('text').attr('x', 0).attr('y', d.y + 13).attr('font-weight', 500).text(d.label);
+      svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', d.y + 18).attr('y2', d.y + 18).attr('stroke', 'var(--cds-chart-grid)');
+    });
+    data.forEach((d) => {
+      const y = d.y;
+      svg.append('text').attr('class', 'lx-lbl').attr('x', 0).attr('y', y + rowH / 2).attr('dominant-baseline', 'middle').text(d.label);
+      if (d.v === null) return;
+      const x0 = x(Math.min(0, d.v)); const x1 = x(Math.max(0, d.v));
+      svg.append('rect').attr('x', x0).attr('y', y + 6).attr('width', Math.max(1, x1 - x0)).attr('height', rowH - 12).attr('rx', 4)
+        .attr('fill', colors[d.g])
+        .on('mousemove', (ev) => t.show(ev, d.label + ' · ' + m.per, pct(d.v) + d.extra))
+        .on('mouseleave', () => t.hide())
+        .on('touchstart', (ev) => t.show(ev, d.label + ' · ' + m.per, pct(d.v) + d.extra), { passive: true });
+      const neg = d.v < 0;
+      svg.append('text').attr('class', 'lx-val').attr('x', neg ? x0 - 6 : x1 + 6).attr('y', y + rowH / 2).attr('dominant-baseline', 'middle')
+        .attr('text-anchor', neg ? 'end' : 'start')
+        .attr('fill', neg ? 'var(--color-bad)' : 'var(--color-fg)')
+        .text(pct(d.v) + d.extra);
+    });
+  };
+
+  // ---------- serie anual Fondo 2 de Perú ----------
+  const serieF2 = (box) => {
+    const s = statusOf('peru_f2');
+    if (s === 'error' || s === 'connect' || s === 'declined') { falla(box); return; }
+    const rows = rowsOf('peru_f2');
+    box.replaceChildren();
+    if (!rows) return;
+    const data = rows.map((r) => ({ y: String(r.anio), v: num(r.r12m_sep), f: String(r.fuente || '') })).filter((d) => d.v !== null);
+    const W = Math.max(280, box.clientWidth); const H = 240;
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Rentabilidad real anual del Fondo 2 de Perú');
+    const y = d3.scaleLinear([Math.min(0, d3.min(data, (d) => d.v)), Math.max(0, d3.max(data, (d) => d.v))], [H - 26, 10]).nice();
+    const yt = y.ticks(5);
+    const meas = svg.append('text').text(nf0.format(d3.min(yt)) + ' %');
+    const ml = Math.max(...yt.map((v) => { meas.text(nf0.format(v) + ' %'); return meas.node().getComputedTextLength(); })) + 10;
+    meas.remove();
+    const x = d3.scaleBand(data.map((d) => d.y), [ml, W - 4]).paddingInner(0.25).paddingOuter(0.1);
+    yt.forEach((v) => {
+      svg.append('line').attr('x1', ml).attr('x2', W - 4).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', v === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
+      svg.append('text').attr('x', ml - 6).attr('y', y(v)).attr('text-anchor', 'end').attr('dominant-baseline', 'middle').text(nf0.format(v) + ' %');
+    });
+    const step = x.step() < 26 ? (x.step() < 14 ? 5 : 2) : 1;
+    const t = tip(box);
+    data.forEach((d, i) => {
+      const y0 = y(Math.max(0, d.v)); const y1 = y(Math.min(0, d.v));
+      svg.append('rect').attr('x', x(d.y)).attr('width', x.bandwidth()).attr('y', y0).attr('height', Math.max(1, y1 - y0)).attr('rx', Math.min(4, x.bandwidth() / 2))
+        .attr('fill', d.v < 0 ? 'var(--cds-chart-status-critical)' : dash.colors[1])
+        .attr('opacity', /prensa/i.test(d.f) ? 0.5 : 1)
+        .on('mousemove', (ev) => t.show(ev, 'Septiembre ' + d.y + ' · ' + d.f, pct(d.v)))
+        .on('mouseleave', () => t.hide())
+        .on('touchstart', (ev) => t.show(ev, 'Septiembre ' + d.y + ' · ' + d.f, pct(d.v)), { passive: true });
+      if (i % step === 0 || i === data.length - 1) {
+        svg.append('text').attr('x', x(d.y) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text(step > 1 ? d.y : d.y.slice(2));
+      }
+    });
+  };
+
+  // ---------- tamaño de cada sistema ----------
+  const tamano = (box) => {
+    const s = statusOf('patrimonio');
+    if (s === 'error' || s === 'connect' || s === 'declined') { falla(box); return; }
+    const rows = rowsOf('patrimonio');
+    box.replaceChildren();
+    if (!rows) return;
+    const max = d3.max(rows, (r) => num(r.monto_musd)) || 1;
+    rows.forEach((r, i) => {
+      const row = document.createElement('div'); row.className = 'lx-size-row';
+      const l = document.createElement('div'); l.textContent = r.pais;
+      const wrap = document.createElement('div');
+      const bar = document.createElement('div'); bar.className = 'lx-size-bar';
+      bar.style.width = (100 * num(r.monto_musd) / max) + '%';
+      bar.style.background = dash.colors[r.pais === 'Chile' ? 0 : 1];
+      bar.dataset.source = 'patrimonio'; bar.dataset.field = 'monto_musd'; bar.dataset.where = 'pais=' + encodeURIComponent(r.pais);
+      const sp = document.createElement('span'); sp.textContent = 'US$ ' + nf0.format(num(r.monto_musd)) + ' millones';
+      bar.appendChild(sp);
+      const c = document.createElement('div'); c.className = 'lx-note'; c.textContent = r.corte;
+      wrap.append(bar, c);
+      row.append(l, wrap);
+      box.appendChild(row);
+    });
+  };
+
+  // ---------- tablas ----------
+  const tabla = (id, rows, cols, keyOf) => {
+    const t = document.getElementById(id);
+    const tb = t.tBodies[0];
+    tb.replaceChildren();
+    if (!rows) return;
+    rows.forEach((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = keyOf(r);
+      cols.forEach((c) => {
+        const td = document.createElement('td');
+        c(td, r);
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+  };
+  const celdaPct = (f) => (td, r) => { td.textContent = pct(r[f]); tone(td, r[f]); };
+  const chip = (txt, g) => {
+    const s = document.createElement('span'); s.className = 'lx-chip';
+    const i = document.createElement('i'); i.style.background = dash.colors[g];
+    const t = document.createElement('span'); t.textContent = txt;
+    s.append(i, t);
+    return s;
+  };
+  const celdaPar = (f, g) => (td, r) => { td.style.textAlign = 'left'; td.appendChild(chip(String(r[f]), g)); };
+  const celdaRv = (f, g) => (td, r) => {
+    const n = num(r[f]);
+    const wrap = document.createElement('div'); wrap.className = 'lx-bar';
+    const s = document.createElement('span'); s.textContent = n === null ? '—' : nf0.format(n) + ' %';
+    wrap.appendChild(s);
+    if (n !== null) {
+      const tr = document.createElement('div'); tr.className = 'lx-bar-track';
+      const fl = document.createElement('div'); fl.className = 'lx-bar-fill'; fl.style.width = n + '%'; fl.style.background = dash.colors[g];
+      tr.appendChild(fl); wrap.appendChild(tr);
+    }
+    td.appendChild(wrap);
+  };
+
+  const llenarTablas = () => {
+    tabla('tabla-chile', rowsOf('chile'), [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = 'Fondo ' + r.fondo; },
+      (td, r) => { td.textContent = r.perfil; },
+      celdaPar('par_peru', 1),
+      celdaPct('r2025'), celdaPct('ene_sep_2026'), celdaPct('r12m_sep2026'), celdaPct('prom_2002_2026'),
+    ], (r) => String(r.fondo));
+    const hist = rowsOf('peru_hist');
+    const pe = rowsOf('peru');
+    tabla('tabla-peru', pe ? [...pe].sort((a, b) => Number(b.fondo) - Number(a.fondo)) : null, [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = 'Fondo ' + r.fondo; },
+      (td, r) => { td.textContent = r.perfil; },
+      celdaPar('par_chile', 0),
+      celdaPct('r2025'), celdaPct('r12m_ago2026'), celdaPct('r12m_sep2026'),
+      (td, r) => { const h = hist ? hist.find((x) => String(x.fondo) === String(r.fondo)) : null; td.textContent = h ? h.promedio : '—'; },
+    ], (r) => String(r.fondo));
+    const eq = rowsOf('equivalencias');
+    tabla('tabla-equiv', eq ? [...eq].sort((a, b) => Number(a.orden) - Number(b.orden)) : null, [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = r.perfil; },
+      (td, r) => { td.textContent = r.chile; },
+      celdaRv('chile_max_rv', 0),
+      (td, r) => { td.textContent = r.peru; },
+      celdaRv('peru_max_rv', 1),
+    ], (r) => String(r.perfil));
+    tabla('tabla-pares', rowsOf('pares'), [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = r.perfil; },
+      (td, r) => { td.appendChild(chip(r.chile, 0)); },
+      (td, r) => { td.appendChild(chip(r.peru, 1)); },
+      celdaPct('chile_12m'), celdaPct('peru_12m'),
+      (td, r) => { const n = num(r.dif_12m); td.textContent = n === null ? '—' : (n > 0 ? '+' : '') + nf2.format(n) + ' pp'; td.style.fontWeight = '600'; tone(td, n); },
+      celdaPct('chile_2025'), celdaPct('peru_2025'), celdaPct('chile_hist'), celdaPct('peru_hist'),
+    ], (r) => String(r.perfil));
+  };
+
+  // ---------- textos ----------
+  const llenarTextos = () => {
+    document.querySelectorAll('.lx-text[data-grupo]').forEach((box) => {
+      const ps = parrafos(box.dataset.grupo);
+      box.replaceChildren(...ps.map((p) => { const el = document.createElement('p'); el.textContent = p; return el; }));
+    });
+  };
+
+  // ---------- cifras destacadas ----------
+  const llenarMarcas = () => {
+    document.querySelectorAll('.lx-head [data-source], #kpis [data-source]').forEach((el) => {
+      const rows = rowsOf(el.dataset.source);
+      const st = statusOf(el.dataset.source);
+      if (!rows) { if (st !== 'loading') el.classList.remove('dash-skeleton'); el.textContent = '—'; return; }
+      const [k, v] = el.dataset.where.split('=');
+      const r = rows.find((x) => String(x[k]) === decodeURIComponent(v));
+      el.classList.remove('dash-skeleton');
+      el.textContent = r ? pct(r[el.dataset.field]) : '—';
+      if (el.classList.contains('lx-kpi-v')) { tone(el, r ? r[el.dataset.field] : null); el.classList.toggle('lx-pos', !!r && num(r[el.dataset.field]) > 0); }
+    });
+  };
+
+  // ---------- selector de periodo ----------
+  const seg = document.querySelectorAll('#comparativo .lx-seg button[data-mode]');
+  seg.forEach((b) => b.addEventListener('click', () => {
+    modo = b.dataset.mode;
+    seg.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    document.getElementById('cmp-note').textContent = MODOS[modo].nota;
+    dibujarGraficos();
+  }));
+
+  // ---------- explicación hablada de los gráficos ----------
+  const nombreFondo = (d) => 'el Fondo ' + d.label.split(' ')[1] + (d.g === 0 ? ' de Chile' : ' de Perú');
+  const pctAbs = (v) => nf2.format(Math.abs(v)) + ' %';
+  const valorDicho = (v) => (v < 0 ? 'pierde ' : 'gana ') + pctAbs(v);
+  const explicarNueve = (m) => {
+    const res = filasNueve(m);
+    if (!res) return 'Los datos del gráfico todavía no cargan.';
+    const periodo = m === MODOS.hist ? 'como promedio anual de largo plazo' : (m === MODOS.r2025 ? 'en el año 2025' : 'en los 12 meses a septiembre de 2026');
+    const partes = [
+      'Este gráfico compara la rentabilidad real de los fondos de Chile y Perú, ' + periodo + '.',
+      'Los fondos están agrupados por perfil de riesgo, del más riesgoso al más conservador. Las barras azules son de Chile y las rojas de Perú. Una barra hacia la izquierda indica pérdida.',
+    ];
+    const grupos = [];
+    res.rows.forEach((d) => { if (d.head) grupos.push({ perfil: d.label, items: [] }); else grupos[grupos.length - 1].items.push(d); });
+    let peruGana = 0; let pares = 0;
+    grupos.forEach((gr) => {
+      const its = gr.items.filter((d) => d.v !== null);
+      if (!its.length) return;
+      const dichos = its.map((d) => nombreFondo(d) + ' ' + (m === MODOS.hist ? 'promedia ' + (d.v < 0 ? 'menos ' : '') + pctAbs(d.v) + ' al año' + d.extra.replace(/[()]/g, '') : valorDicho(d.v)));
+      let frase = 'En el perfil ' + gr.perfil.toLowerCase() + ', ' + dichos.join(', y ') + '.';
+      const c = its.find((d) => d.g === 0); const pe = its.find((d) => d.g === 1);
+      if (c && pe) {
+        pares += 1;
+        const dif = pe.v - c.v;
+        if (dif > 0) peruGana += 1;
+        frase += ' ' + (dif >= 0 ? 'Perú' : 'Chile') + ' rinde ' + nf2.format(Math.abs(dif)) + ' puntos más.';
+      } else if (c && !pe) {
+        frase += ' Este fondo no tiene par en Perú.';
+      } else if (pe && !c) {
+        frase += ' Este fondo no tiene par en Chile.';
+      }
+      partes.push(frase);
+    });
+    const todos = res.rows.filter((d) => !d.head && d.v !== null);
+    const mejor = todos.reduce((a, b) => (b.v > a.v ? b : a));
+    const peor = todos.reduce((a, b) => (b.v < a.v ? b : a));
+    partes.push('En resumen, el mejor resultado lo tiene ' + nombreFondo(mejor) + ', con ' + pct(mejor.v) + ', y el más bajo, ' + nombreFondo(peor) + ', con ' + pct(peor.v) + '.');
+    if (pares) partes.push('De los ' + pares + ' pares comparables, Perú rinde más en ' + peruGana + '.');
+    if (m === MODOS.hist) partes.push('Ten en cuenta que Chile se mide desde 2002 y Perú desde 2005, o desde que se creó cada fondo.');
+    return partes.join(' ');
+  };
+  const explicarF2 = () => {
+    const rows = rowsOf('peru_f2');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const data = rows.map((r) => ({ y: String(r.anio), v: num(r.r12m_sep), f: String(r.fuente || '') })).filter((d) => d.v !== null);
+    const mejor = data.reduce((a, b) => (b.v > a.v ? b : a));
+    const peor = data.reduce((a, b) => (b.v < a.v ? b : a));
+    const negs = data.filter((d) => d.v < 0);
+    const prom = (Math.pow(data.reduce((acc, d) => acc * (1 + d.v / 100), 1), 1 / data.length) - 1) * 100;
+    const ult = data[data.length - 1];
+    return [
+      'Este gráfico muestra, año a año, la rentabilidad real del Fondo 2 de Perú en los 12 meses a cada septiembre, desde ' + data[0].y + ' hasta ' + ult.y + '.',
+      'Cada barra es un año. Las barras rojas, hacia abajo, son años con pérdidas.',
+      'Hubo ' + negs.length + ' años con pérdidas de un total de ' + data.length + ': ' + negs.map((d) => d.y).join(', ') + '.',
+      'El mejor año fue ' + mejor.y + ', con una ganancia de ' + pctAbs(mejor.v) + ', y el peor fue ' + peor.y + ', con una pérdida de ' + pctAbs(peor.v) + '.',
+      'Considerando todo el periodo, el fondo rindió en promedio ' + nf2.format(prom) + ' % real al año.',
+      /prensa/i.test(ult.f) ? 'La última barra, de ' + ult.y + ', se ve más clara porque es un dato de prensa que aún no publica la autoridad.' : '',
+    ].join(' ');
+  };
+  const explicarTamano = () => {
+    const rows = rowsOf('patrimonio');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const c = rows.find((r) => r.pais === 'Chile'); const p = rows.find((r) => r.pais === 'Perú');
+    if (!c || !p) return '';
+    const veces = num(c.monto_musd) / num(p.monto_musd);
+    return 'Este gráfico compara el tamaño de los dos sistemas, medido en dólares. ' +
+      'Chile administra ' + nf0.format(num(c.monto_musd)) + ' millones de dólares, a ' + String(c.corte).toLowerCase().replace(/ (\d{4})/, ' de $1') + '. ' +
+      'Perú administra ' + nf0.format(num(p.monto_musd)) + ' millones de dólares, a ' + String(p.corte).toLowerCase().replace(/ (\d{4})/, ' de $1') + '. ' +
+      'El sistema chileno es unas ' + new Intl.NumberFormat('es-CL', { maximumFractionDigits: 1 }).format(veces) + ' veces más grande.';
+  };
+  const EXPLICAR = {
+    cmp: () => explicarNueve(MODOS[modo]),
+    hist: () => explicarNueve(MODOS.hist),
+    f2: explicarF2,
+    size: explicarTamano,
+    cobertura: () => explicarCobertura(),
+  };
+
+  // ---------- comparación legal ----------
+  const FAV = { 'Perú': 'peru', 'Chile': 'chile', 'Similar': 'similar', 'Depende': 'depende', 'Distinto': 'distinto' };
+  const FAV_DICHO = {
+    'Perú': 'Más favorable al afiliado en Perú.',
+    'Chile': 'Más favorable al afiliado en Chile.',
+    'Similar': 'Las reglas son similares.',
+    'Depende': 'Cuál conviene más depende de cada caso.',
+    'Distinto': 'Son reglas distintas, sin una ventaja clara.',
+  };
+  const filasLegal = (g) => { const r = rowsOf('legal'); return r ? r.filter((x) => x.grupo === g).sort((a, b) => Number(a.orden) - Number(b.orden)) : null; };
+  const leerLegal = (g) => {
+    const rows = filasLegal(g);
+    if (!rows || !rows.length) return '';
+    return [rows[0].grupo_nombre + '.'].concat(rows.map((r) => r.tema + '. En Perú: ' + r.peru + ' En Chile: ' + r.chile + ' ' + (FAV_DICHO[r.favorece] || ''))).join(' ');
+  };
+  const llenarLegal = () => {
+    document.querySelectorAll('table.lx-legal').forEach((t) => {
+      const rows = filasLegal(t.dataset.grupoLegal);
+      const tb = t.tBodies[0];
+      tb.replaceChildren();
+      if (!rows) return;
+      rows.forEach((r) => {
+        const tr = document.createElement('tr');
+        tr.dataset.key = r.tema;
+        const a = document.createElement('td'); a.className = 'lx-tema'; a.textContent = r.tema;
+        const b = document.createElement('td'); b.dataset.label = 'Perú'; b.textContent = r.peru;
+        const c = document.createElement('td'); c.dataset.label = 'Chile'; c.textContent = r.chile;
+        const d = document.createElement('td'); d.dataset.label = 'Más favorable al afiliado';
+        const chipF = document.createElement('span'); chipF.className = 'lx-fav ' + (FAV[r.favorece] || 'distinto'); chipF.textContent = r.favorece;
+        d.appendChild(chipF);
+        tr.append(a, b, c, d);
+        tb.appendChild(tr);
+      });
+    });
+  };
+  const METRICAS = [
+    { f: 'pct_cot_ft', l: 'Cotiza, sobre la fuerza de trabajo' },
+    { f: 'pct_cot_pob', l: 'Cotiza, sobre la población total' },
+    { f: 'pct_cot_afi', l: 'Afiliados que cotizan' },
+    { f: 'informalidad', l: 'Trabajo informal' },
+  ];
+  const nf1 = new Intl.NumberFormat('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const cobertura = () => {
+    const box = document.getElementById('cob-chart');
+    const st = statusOf('cobertura');
+    if (st === 'error' || st === 'connect' || st === 'declined') { falla(box); return; }
+    const rows = rowsOf('cobertura');
+    box.replaceChildren();
+    if (!rows) return;
+    const orden = [rows.find((r) => r.pais === 'Chile'), rows.find((r) => r.pais === 'Perú')].filter(Boolean);
+    METRICAS.forEach((m) => {
+      const w = document.createElement('div'); w.className = 'lx-cob-m';
+      const l = document.createElement('div'); l.className = 'lx-cob-l'; l.textContent = m.l;
+      w.appendChild(l);
+      orden.forEach((r) => {
+        const v = num(r[m.f]);
+        const row = document.createElement('div'); row.className = 'lx-cob-r';
+        row.dataset.source = 'cobertura'; row.dataset.field = m.f; row.dataset.where = 'pais=' + encodeURIComponent(r.pais);
+        const n = document.createElement('span'); n.textContent = r.pais;
+        const tr = document.createElement('div'); tr.className = 'lx-cob-track';
+        const fl = document.createElement('div'); fl.className = 'lx-cob-fill'; fl.style.width = (v || 0) + '%'; fl.style.background = dash.colors[r.pais === 'Chile' ? 0 : 1];
+        tr.appendChild(fl);
+        const val = document.createElement('span'); val.className = 'lx-cob-v'; val.textContent = v === null ? '—' : nf1.format(v) + ' %';
+        row.append(n, tr, val);
+        w.appendChild(row);
+      });
+      box.appendChild(w);
+    });
+    document.getElementById('cob-cortes').textContent = orden.map((r) => r.pais + ': ' + r.corte + '.').join(' ');
+  };
+  const llenarCobertura = () => {
+    tabla('tabla-cobertura', rowsOf('cobertura'), [
+      (td, r) => { td.className = 'lx-fondo'; td.textContent = r.pais; },
+      (td, r) => { td.textContent = nf0.format(num(r.poblacion)); },
+      (td, r) => { td.textContent = nf0.format(num(r.fuerza_trabajo)); },
+      (td, r) => { td.textContent = nf0.format(num(r.afiliados)); },
+      (td, r) => { td.textContent = nf0.format(num(r.cotizantes)); },
+    ], (r) => String(r.pais));
+    cobertura();
+  };
+  const explicarCobertura = () => {
+    const rows = rowsOf('cobertura');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const c = rows.find((r) => r.pais === 'Chile'); const p = rows.find((r) => r.pais === 'Perú');
+    return 'Este gráfico compara cuánta gente cotiza en una AFP en cada país. Las barras azules son de Chile y las rojas de Perú. ' +
+      METRICAS.map((m) => m.l + ': Chile ' + nf1.format(num(c[m.f])) + ' %, y Perú ' + nf1.format(num(p[m.f])) + ' %.').join(' ');
+  };
+
+  function dibujarGraficos() {
+    if (actual === 'resumen') {
+      barrasH(document.getElementById('cmp-chart'), MODOS[modo]);
+      tamano(document.getElementById('size-chart'));
+    }
+    if (actual === 'historico') {
+      barrasH(document.getElementById('hist-chart'), MODOS.hist);
+      serieF2(document.getElementById('f2-chart'));
+    }
+  }
+
+  dash.onData(() => {
+    llenarMarcas();
+    llenarTablas();
+    llenarLegal();
+    llenarCobertura();
+    llenarTextos();
+    dibujarGraficos();
+  });
+
+  const inicial = location.hash.slice(1);
+  mostrar(pages.some((p) => p.id === inicial) ? inicial : 'resumen', false);
+})();
+</script>

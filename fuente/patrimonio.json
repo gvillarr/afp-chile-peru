@@ -1,0 +1,16 @@
+{
+"rows": [
+{
+"pais": "Chile",
+"monto_musd": 235469.75,
+"corte": "Septiembre 2026",
+"fuente": "Superintendencia de Pensiones (tipo de cambio $ 970,46)"
+},
+{
+"pais": "Perú",
+"monto_musd": 36911.82,
+"corte": "Agosto 2026",
+"fuente": "BCRP, serie Valor del Fondo en millones de US$ (S/ 124.098 millones)"
+}
+]
+}

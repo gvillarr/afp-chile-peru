@@ -1,0 +1,250 @@
+{
+"rows": [
+{
+"id": "t01",
+"grupo": "a2025",
+"orden": 1,
+"texto": "Todos los fondos de los dos países ganaron en términos reales. En Chile fue el mejor año en seis."
+},
+{
+"id": "t02",
+"grupo": "a2025",
+"orden": 2,
+"texto": "El fondo más riesgoso de Perú rindió algo más que el de Chile: el Fondo 3 ganó 16,46 % real y el Fondo A, 14,89 %."
+},
+{
+"id": "t03",
+"grupo": "a2025",
+"orden": 3,
+"texto": "La diferencia estuvo en los fondos conservadores. El Fondo E chileno ganó 8,06 % real gracias a la baja de tasas, y el Fondo 0 peruano solo 3,14 %. Por eso la distancia entre el fondo más riesgoso y el más conservador fue de 6,8 puntos en Chile y de 13,3 en Perú."
+},
+{
+"id": "t04",
+"grupo": "a2026",
+"orden": 4,
+"texto": "En los 12 meses a septiembre de 2026, el fondo más riesgoso de Perú supera al de Chile por unos 17 puntos: el Fondo 3 gana cerca de 26 % real y el Fondo A, 9,21 %. El Fondo 3 tiene mucha bolsa local ligada a la minería del cobre, el oro y la plata, y acciones extranjeras de tecnología. Aun así, viene bajando desde cerca de 38 % en junio."
+},
+{
+"id": "t05",
+"grupo": "a2026",
+"orden": 5,
+"texto": "En Chile, los fondos conservadores viven su peor tramo reciente. El alza de las tasas de largo plazo hizo caer los bonos: el Fondo E pierde 9,38 % real en 12 meses y el D, 4,74 %. Según el Diario Financiero, las coberturas con swaps de tasas le restaron cerca de 4,2 puntos al Fondo E."
+},
+{
+"id": "t06",
+"grupo": "a2026",
+"orden": 6,
+"texto": "En Perú, el golpe a los fondos conservadores vino por la inflación, que subió de 1,5 % a 4,55 %. El Fondo 0 quedó cerca de cero en términos reales y el Fondo 1 en 2,83 %."
+},
+{
+"id": "t07",
+"grupo": "a2026",
+"orden": 7,
+"texto": "La lección común es que conservador no significa sin riesgo. En Chile el riesgo fue el de tasas y en Perú el de inflación. En los dos casos el fondo seguro perdió poder adquisitivo en el último año."
+},
+{
+"id": "t08",
+"grupo": "ahist",
+"orden": 8,
+"texto": "Chile muestra un premio por riesgo ordenado desde 2002: cada fondo más riesgoso rinde más, desde 5,90 % real anual en el Fondo A hasta 2,57 % en el Fondo E. Son 3,3 puntos al año de diferencia."
+},
+{
+"id": "t09",
+"grupo": "ahist",
+"orden": 9,
+"texto": "Desde 2005, el Fondo 2 de Perú rinde 4,83 % real anual, algo más que el Fondo C chileno, con 4,15 %. Las ventanas no son idénticas: Chile se mide desde 2002 porque la Superintendencia publica su promedio oficial desde esa fecha."
+},
+{
+"id": "t10",
+"grupo": "ahist",
+"orden": 10,
+"texto": "Si se mide desde 2002, el Fondo 2 peruano sube a 6,03 % anual por el auge de 2003 a 2005. El costo de ese rendimiento es la volatilidad: tuvo caídas de cerca de 17 % en 2008 y de 16 % en 2022."
+},
+{
+"id": "t11",
+"grupo": "ahist",
+"orden": 11,
+"texto": "En Perú, arriesgar más no siempre pagó. Entre 2006 y 2026, en AFP Integra, el Fondo 3 rindió 4,43 % real anual, casi lo mismo que su Fondo 2. Las diferencias entre administradoras también son grandes, así que elegir la AFP pesa casi tanto como elegir el fondo."
+},
+{
+"id": "t12",
+"grupo": "comparar",
+"orden": 12,
+"texto": "Cada país deflacta con su propio índice: Chile por la UF y Perú por el IPC de Lima. La comparación es de poder adquisitivo local, no de dinero equivalente."
+},
+{
+"id": "t13",
+"grupo": "comparar",
+"orden": 13,
+"texto": "Las ventanas de 12 meses son muy volátiles. El Fondo 3 peruano pasó de cerca de 38 % a cerca de 26 % en tres meses. Para decidir conviene mirar horizontes largos."
+},
+{
+"id": "t14",
+"grupo": "comparar",
+"orden": 14,
+"texto": "Los fondos comparables por perfil son el A chileno con el 3 peruano, el C con el 2, y el E con el 0 o el 1."
+},
+{
+"id": "t15",
+"grupo": "tamano",
+"orden": 15,
+"texto": "El sistema chileno administra cerca de 235 mil millones de dólares y el peruano cerca de 37 mil millones: el chileno es unas 6,4 veces más grande."
+},
+{
+"id": "t16",
+"grupo": "tamano",
+"orden": 16,
+"texto": "La diferencia se explica sobre todo porque el sistema chileno es 12 años más antiguo y la economía chilena es más grande por habitante. En Perú, además, los retiros extraordinarios de los últimos años redujeron los fondos; la cartera peruana equivale a cerca de 10 % del PBI."
+},
+{
+"id": "t17",
+"grupo": "diferencias",
+"orden": 17,
+"texto": "Los dos sistemas usan el mismo modelo de cuentas individuales administradas por AFP privadas. Chile lo creó en 1981 y Perú en 1993. En Perú no existe un Fondo 4: los fondos van del 0 al 3."
+},
+{
+"id": "t18",
+"grupo": "diferencias",
+"orden": 18,
+"texto": "El fondo conservador no es igual en los dos países. El Fondo 0 peruano invierte en instrumentos de corto plazo: casi no le afectan las tasas, pero tampoco le gana a la inflación. El Fondo E chileno invierte en bonos de largo plazo, que caen de precio cuando suben las tasas."
+},
+{
+"id": "t19",
+"grupo": "diferencias",
+"orden": 19,
+"texto": "Chile tiene cinco escalones de riesgo, con un Fondo B intermedio. Perú tiene cuatro, con un salto grande del Fondo 1 al Fondo 2."
+},
+{
+"id": "t20",
+"grupo": "diferencias",
+"orden": 20,
+"texto": "En Chile se puede repartir el ahorro obligatorio entre dos fondos. En Perú se está en uno solo."
+},
+{
+"id": "t21",
+"grupo": "diferencias",
+"orden": 21,
+"texto": "Chile reemplazará los fondos A a E por diez fondos generacionales desde abril de 2027, asignados por año de nacimiento. Perú mantiene sus fondos 0 a 3; la SBS evalúa fondos por ciclo de vida, sin nada aprobado."
+},
+{
+"id": "t22",
+"grupo": "nota_equiv",
+"orden": 22,
+"texto": "Límites legales generales de inversión en acciones. El Fondo A chileno debe tener además un mínimo de 40 %. El Fondo E chileno no tiene par exacto en Perú: lo más cercano es el 1 o el 0. Perú no tiene un fondo equivalente al B."
+},
+{
+"id": "t23",
+"grupo": "nota_chile",
+"orden": 23,
+"texto": "Rentabilidad real deflactada por UF, promedio del sistema. Fuente: Superintendencia de Pensiones, corte septiembre de 2026. El Fondo C rinde 7,07 % real anual desde 1981."
+},
+{
+"id": "t24",
+"grupo": "nota_peru",
+"orden": 24,
+"texto": "Rentabilidad real deflactada por el IPC de Lima, promedio del sistema salvo donde se indica."
+},
+{
+"id": "t25",
+"grupo": "nota_peru",
+"orden": 25,
+"texto": "2025 y Fondo 1 a agosto: rendimientos nominales de la SBS deflactados con el IPC del BCRP, 1,51 % en 2025 y 4,44 % en los 12 meses a agosto."
+},
+{
+"id": "t26",
+"grupo": "nota_peru",
+"orden": 26,
+"texto": "12 meses a septiembre: cifras de BioBioChile con datos de la SBS. El boletín de septiembre de la SBS aún no está publicado."
+},
+{
+"id": "t27",
+"grupo": "nota_peru",
+"orden": 27,
+"texto": "Promedio del Fondo 2: serie oficial del BCRP encadenada, promedio del sistema. Fondos 0, 1 y 3: AFP Integra desde su creación, porque la SBS no publica el promedio real del sistema. Para el Fondo 3 de todo el sistema se estima cerca de 5,7 %."
+},
+{
+"id": "t28",
+"grupo": "archivo",
+"orden": 28,
+"texto": "El mayor retorno reciente es el Fondo 3 de Perú, con 29,86 % real a agosto o cerca de 26 % a septiembre, no 38,45 %, que era el dato de junio."
+},
+{
+"id": "t29",
+"grupo": "archivo",
+"orden": 29,
+"texto": "Los fondos A y B de Chile a 12 meses son 9,21 % y 5,96 %. El archivo mostraba el acumulado de enero a septiembre."
+},
+{
+"id": "t30",
+"grupo": "archivo",
+"orden": 30,
+"texto": "En Chile 2025, los fondos A, D y E no coincidían con la cifra oficial."
+},
+{
+"id": "t31",
+"grupo": "archivo",
+"orden": 31,
+"texto": "Los promedios históricos de Chile eran entre 0,13 y 0,25 puntos más altos que los oficiales."
+},
+{
+"id": "t32",
+"grupo": "archivo",
+"orden": 32,
+"texto": "Perú 2025 en términos reales era correcto. El modo nominal del archivo era inventado."
+},
+{
+"id": "t33",
+"grupo": "legal",
+"orden": 33,
+"texto": "Perú da más libertad: se puede elegir entre el sistema público y las AFP, se mantiene la libre elección del fondo y existe el Fondo 0 para proteger el capital de los mayores."
+},
+{
+"id": "t34",
+"grupo": "legal",
+"orden": 34,
+"texto": "Chile da más aportes y cobertura: el empleador aportará hasta 8,5 % del sueldo, el seguro lo paga el empleador y existe la Pensión Garantizada Universal."
+},
+{
+"id": "t35",
+"grupo": "legal",
+"orden": 35,
+"texto": "Chile está eliminando la libre elección del fondo y la rentabilidad mínima como existía. Perú avanza hacia una comparación con carteras de referencia, pero aún no la aplica."
+},
+{
+"id": "t36",
+"grupo": "legal",
+"orden": 36,
+"texto": "Esta comparación resume reglas generales. Algunos detalles de las reformas de ambos países todavía dependen de reglamentos."
+},
+{
+"id": "t37",
+"grupo": "cobertura",
+"orden": 37,
+"texto": "En Chile cotiza en una AFP cerca de 56 % de la fuerza de trabajo. En Perú, solo cerca de 23 %."
+},
+{
+"id": "t38",
+"grupo": "cobertura",
+"orden": 38,
+"texto": "Medido sobre toda la población, cotiza 28,7 % de los habitantes de Chile y 12,2 % de los de Perú."
+},
+{
+"id": "t39",
+"grupo": "cobertura",
+"orden": 39,
+"texto": "La gran diferencia es la informalidad: en Perú cerca de 71 % de los trabajadores es informal y no cotiza; en Chile, cerca de 26 %."
+},
+{
+"id": "t40",
+"grupo": "cobertura",
+"orden": 40,
+"texto": "En ambos países hay muchos más afiliados que cotizantes: cotiza cerca de 47 % de los afiliados en Chile y 40 % en Perú."
+},
+{
+"id": "t41",
+"grupo": "cobertura",
+"orden": 41,
+"texto": "En Perú, además, parte de los trabajadores formales cotiza en la ONP, el sistema público, y no aparece en estas cifras."
+}
+]
+}
