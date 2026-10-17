@@ -165,7 +165,6 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     </div>
     <div class="lx-actions">
       <button class="lx-oir" type="button" data-leer="resumen" aria-pressed="false"></button>
-      <label class="lx-voz" hidden>Voz <select id="lx-voz" aria-label="Voz para leer en voz alta"></select></label>
     </div>
   </header>
 
@@ -213,6 +212,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
           <button type="button" data-mode="r12m" aria-pressed="true">12 meses</button>
           <button type="button" data-mode="r2025" aria-pressed="false">2025</button>
           <button type="button" data-mode="hist" aria-pressed="false">Promedio histórico</button>
+          <button class="lx-oir" type="button" data-grafico="cmp" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
         </div>
       </div>
       <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span><span>Agrupados por perfil de riesgo: cada fondo junto a su par del otro país</span></div>
@@ -254,7 +254,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
             <h2>Tamaño de cada sistema</h2>
             <p class="lx-note">Fondos administrados en millones de dólares.</p>
           </div>
-          <button class="lx-oir" type="button" data-grupos="tamano" aria-pressed="false"></button>
+          <button class="lx-oir" type="button" data-grafico="size" data-grupos="tamano" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
         </div>
         <div class="lx-size" id="size-chart" data-source="patrimonio" style="min-height: 4rem"></div>
         <div class="lx-text lx-small" data-source="textos" data-grupo="tamano"></div>
@@ -331,9 +331,10 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
             <h2>Promedio anual real de largo plazo</h2>
             <p class="lx-note">Chile desde septiembre de 2002 y Perú desde septiembre de 2005, o desde la creación del fondo si es posterior.</p>
           </div>
+          <button class="lx-oir" type="button" data-grafico="hist" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
         </div>
         <div class="lx-legend"><span><i class="lx-sw0"></i>Chile</span><span><i class="lx-sw1"></i>Perú</span></div>
-        <div class="lx-chart" id="hist-chart" data-source="chile peru" style="min-height: 19rem"></div>
+        <div class="lx-chart" id="hist-chart" data-source="chile peru equivalencias" style="min-height: 19rem"></div>
       </div>
       <div class="lx-card" id="hist-lectura">
         <div class="lx-card-head">
@@ -349,6 +350,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
           <h2>Perú · Fondo 2, año a año</h2>
           <p class="lx-note">Rentabilidad real de los 12 meses a cada septiembre, promedio del sistema. La barra más clara es el dato de 2026, que viene de prensa.</p>
         </div>
+        <button class="lx-oir" type="button" data-grafico="f2" data-etiqueta="Explicar gráfico" aria-pressed="false"></button>
       </div>
       <div class="lx-chart" id="f2-chart" data-source="peru_f2" style="min-height: 16rem"></div>
     </div>
@@ -699,6 +701,7 @@ window.dash = (() => {
         partes.push(k.querySelector('.lx-kpi-l').textContent + ': ' + k.querySelector('.lx-kpi-v').textContent + ', ' + k.querySelector('.lx-kpi-s').textContent + '.');
       });
     }
+    if (b.dataset.grafico && EXPLICAR[b.dataset.grafico]) partes.push(EXPLICAR[b.dataset.grafico]());
     if (b.dataset.tabla) {
       partes.push((b.dataset.titulo || '') + '.');
       partes.push(leerTabla(b.dataset.tabla));
@@ -1001,6 +1004,83 @@ window.dash = (() => {
     document.getElementById('cmp-note').textContent = MODOS[modo].nota;
     dibujarGraficos();
   }));
+
+  // ---------- explicación hablada de los gráficos ----------
+  const nombreFondo = (d) => 'el Fondo ' + d.label.split(' ')[1] + (d.g === 0 ? ' de Chile' : ' de Perú');
+  const pctAbs = (v) => nf2.format(Math.abs(v)) + ' %';
+  const valorDicho = (v) => (v < 0 ? 'pierde ' : 'gana ') + pctAbs(v);
+  const explicarNueve = (m) => {
+    const res = filasNueve(m);
+    if (!res) return 'Los datos del gráfico todavía no cargan.';
+    const periodo = m === MODOS.hist ? 'como promedio anual de largo plazo' : (m === MODOS.r2025 ? 'en el año 2025' : 'en los 12 meses a septiembre de 2026');
+    const partes = [
+      'Este gráfico compara la rentabilidad real de los fondos de Chile y Perú, ' + periodo + '.',
+      'Los fondos están agrupados por perfil de riesgo, del más riesgoso al más conservador. Las barras azules son de Chile y las rojas de Perú. Una barra hacia la izquierda indica pérdida.',
+    ];
+    const grupos = [];
+    res.rows.forEach((d) => { if (d.head) grupos.push({ perfil: d.label, items: [] }); else grupos[grupos.length - 1].items.push(d); });
+    let peruGana = 0; let pares = 0;
+    grupos.forEach((gr) => {
+      const its = gr.items.filter((d) => d.v !== null);
+      if (!its.length) return;
+      const dichos = its.map((d) => nombreFondo(d) + ' ' + (m === MODOS.hist ? 'promedia ' + (d.v < 0 ? 'menos ' : '') + pctAbs(d.v) + ' al año' + d.extra.replace(/[()]/g, '') : valorDicho(d.v)));
+      let frase = 'En el perfil ' + gr.perfil.toLowerCase() + ', ' + dichos.join(', y ') + '.';
+      const c = its.find((d) => d.g === 0); const pe = its.find((d) => d.g === 1);
+      if (c && pe) {
+        pares += 1;
+        const dif = pe.v - c.v;
+        if (dif > 0) peruGana += 1;
+        frase += ' ' + (dif >= 0 ? 'Perú' : 'Chile') + ' rinde ' + nf2.format(Math.abs(dif)) + ' puntos más.';
+      } else if (c && !pe) {
+        frase += ' Este fondo no tiene par en Perú.';
+      } else if (pe && !c) {
+        frase += ' Este fondo no tiene par en Chile.';
+      }
+      partes.push(frase);
+    });
+    const todos = res.rows.filter((d) => !d.head && d.v !== null);
+    const mejor = todos.reduce((a, b) => (b.v > a.v ? b : a));
+    const peor = todos.reduce((a, b) => (b.v < a.v ? b : a));
+    partes.push('En resumen, el mejor resultado es el de ' + nombreFondo(mejor) + ', con ' + pct(mejor.v) + ', y el más bajo es el de ' + nombreFondo(peor) + ', con ' + pct(peor.v) + '.');
+    if (pares) partes.push('De los ' + pares + ' pares comparables, Perú rinde más en ' + peruGana + '.');
+    if (m === MODOS.hist) partes.push('Ten en cuenta que Chile se mide desde 2002 y Perú desde 2005, o desde que se creó cada fondo.');
+    return partes.join(' ');
+  };
+  const explicarF2 = () => {
+    const rows = rowsOf('peru_f2');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const data = rows.map((r) => ({ y: String(r.anio), v: num(r.r12m_sep), f: String(r.fuente || '') })).filter((d) => d.v !== null);
+    const mejor = data.reduce((a, b) => (b.v > a.v ? b : a));
+    const peor = data.reduce((a, b) => (b.v < a.v ? b : a));
+    const negs = data.filter((d) => d.v < 0);
+    const prom = (Math.pow(data.reduce((acc, d) => acc * (1 + d.v / 100), 1), 1 / data.length) - 1) * 100;
+    const ult = data[data.length - 1];
+    return [
+      'Este gráfico muestra, año a año, la rentabilidad real del Fondo 2 de Perú en los 12 meses a cada septiembre, desde ' + data[0].y + ' hasta ' + ult.y + '.',
+      'Cada barra es un año. Las barras rojas, hacia abajo, son años con pérdidas.',
+      'Hubo ' + negs.length + ' años con pérdidas de un total de ' + data.length + ': ' + negs.map((d) => d.y).join(', ') + '.',
+      'El mejor año fue ' + mejor.y + ', con una ganancia de ' + pctAbs(mejor.v) + ', y el peor fue ' + peor.y + ', con una pérdida de ' + pctAbs(peor.v) + '.',
+      'Considerando todo el periodo, el fondo rindió en promedio ' + nf2.format(prom) + ' % real al año.',
+      /prensa/i.test(ult.f) ? 'La última barra, de ' + ult.y + ', se ve más clara porque es un dato de prensa que aún no publica la autoridad.' : '',
+    ].join(' ');
+  };
+  const explicarTamano = () => {
+    const rows = rowsOf('patrimonio');
+    if (!rows) return 'Los datos del gráfico todavía no cargan.';
+    const c = rows.find((r) => r.pais === 'Chile'); const p = rows.find((r) => r.pais === 'Perú');
+    if (!c || !p) return '';
+    const veces = num(c.monto_musd) / num(p.monto_musd);
+    return 'Este gráfico compara el tamaño de los dos sistemas, medido en dólares. ' +
+      'Chile administra ' + nf0.format(num(c.monto_musd)) + ' millones de dólares, a ' + String(c.corte).toLowerCase() + '. ' +
+      'Perú administra ' + nf0.format(num(p.monto_musd)) + ' millones de dólares, a ' + String(p.corte).toLowerCase() + '. ' +
+      'El sistema chileno es unas ' + nf2.format(veces).replace(/,?0+$/, '') + ' veces más grande.';
+  };
+  const EXPLICAR = {
+    cmp: () => explicarNueve(MODOS[modo]),
+    hist: () => explicarNueve(MODOS.hist),
+    f2: explicarF2,
+    size: explicarTamano,
+  };
 
   function dibujarGraficos() {
     if (actual === 'resumen') {
