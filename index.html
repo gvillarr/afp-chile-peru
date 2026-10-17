@@ -641,15 +641,33 @@ window.dash = (() => {
       const t = btn.querySelector('.lx-oir-t');
       if (t) t.textContent = on ? 'Detener' : (btn.dataset.etiqueta || 'Escuchar');
     };
+    // audios grabados con la voz Marisol (mejorada): se buscan por la huella del texto limpio
+    const huella = (t) => { let h = 0x811c9dc5; for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ('0000000' + h.toString(16)).slice(-8); };
+    const limpio = (t) => trozos(t).join(' ');
+    let reproductor = null;
     const parar = () => {
-      if (!ok) return;
-      try { window.speechSynthesis.cancel(); } catch (e) { /* nada que detener */ }
+      if (reproductor) { try { reproductor.pause(); } catch (e) { /* ya detenido */ } reproductor = null; }
+      if (ok) { try { window.speechSynthesis.cancel(); } catch (e) { /* nada que detener */ } }
       if (activo) { marcar(activo, false); activo = null; }
     };
+    const grabado = (texto) => { const mapa = window.AFP_AUDIO || {}; return mapa[huella(limpio(texto))] || null; };
     const decir = (texto, btn) => {
-      if (!ok) return;
       if (activo === btn) { parar(); return; }
       parar();
+      const src = grabado(texto);
+      if (src) {
+        const a = new Audio(src);
+        reproductor = a;
+        activo = btn;
+        marcar(btn, true);
+        const fin = () => { if (reproductor === a) reproductor = null; if (activo === btn) { marcar(btn, false); activo = null; } };
+        a.addEventListener('ended', fin);
+        a.addEventListener('error', fin);
+        const pr = a.play();
+        if (pr && pr.catch) pr.catch(fin);
+        return;
+      }
+      if (!ok) return;
       if (!elegida) pick();
       const partes = trozos(texto);
       if (!partes.length) return;
@@ -667,7 +685,7 @@ window.dash = (() => {
         window.speechSynthesis.speak(u);
       });
     };
-    return { ok, decir, parar, marcar };
+    return { ok, decir, parar, marcar, huella, limpio, grabado };
   })();
 
   document.querySelectorAll('.lx-oir').forEach((b) => {
@@ -675,7 +693,7 @@ window.dash = (() => {
     voz.marcar(b, false);
     if (b.dataset.leer === 'resumen') b.dataset.etiqueta = 'Escuchar resumen';
     voz.marcar(b, false);
-    if (!voz.ok) { b.disabled = true; b.title = 'Este navegador no permite la lectura en voz alta.'; }
+    if (!voz.ok && !window.AFP_AUDIO) { b.disabled = true; b.title = 'Este navegador no permite la lectura en voz alta.'; }
   });
 
   const parrafos = (grupo) => {
@@ -713,6 +731,20 @@ window.dash = (() => {
       partes.push(...ps);
     });
     return partes.join(' ');
+  };
+  window.AFP_TEXTOS = () => {
+    const out = new Map();
+    const antes = modo;
+    document.querySelectorAll('.lx-oir').forEach((b) => {
+      const modos = b.dataset.grafico === 'cmp' ? Object.keys(MODOS) : [null];
+      modos.forEach((md) => {
+        if (md) modo = md;
+        const t = voz.limpio(textoPara(b));
+        if (t) out.set(voz.huella(t), t);
+      });
+    });
+    modo = antes;
+    return [...out].map(([huella, texto]) => ({ huella, texto }));
   };
   document.getElementById('lx').addEventListener('click', (e) => {
     const b = e.target.closest('.lx-oir');
