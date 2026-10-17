@@ -130,6 +130,15 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .lx-size-bar { height: 1.75rem; border-radius: 4px; display: flex; align-items: center; padding-inline: var(--cds-pad-sm); min-width: max-content; }
   .lx-size-bar span { font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; color: var(--color-bg); font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
 
+  .lx-fuentes td, .lx-fuentes th { text-align: left !important; white-space: normal !important; position: static !important; }
+  .lx-fuentes td:first-child { min-width: 12rem; }
+  .lx-fuentes td:nth-child(2) { min-width: 14rem; color: var(--color-fg-muted); }
+  .lx-fuentes a { color: var(--color-fg); }
+  .lx-tipo { display: inline-block; font-size: var(--cds-font-size-caption); padding: 1px var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); white-space: nowrap; }
+  .lx-tipo.ofi { color: var(--color-ok); border-color: currentColor; }
+  .lx-tipo.pre { color: var(--color-warn); border-color: currentColor; }
+  .lx-tipo.adm { color: var(--color-fg-muted); }
+  .lx-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
   .lx-sources { display: flex; flex-direction: column; gap: var(--cds-gap-xs); padding: 0; margin: 0; list-style: none; font-size: var(--cds-font-size-caption); }
   .lx-sources a { color: var(--color-fg-muted); }
 
@@ -160,6 +169,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     <button class="lx-tab" role="tab" id="tab-historico" data-page="historico" aria-selected="false">Histórico</button>
     <button class="lx-tab" role="tab" id="tab-fondos" data-page="fondos" aria-selected="false">Tipos de fondo</button>
     <button class="lx-tab" role="tab" id="tab-analisis" data-page="analisis" aria-selected="false">Análisis</button>
+    <button class="lx-tab" role="tab" id="tab-fuentes" data-page="fuentes" aria-selected="false">Fuentes</button>
   </nav>
 
   <!-- RESUMEN -->
@@ -402,19 +412,48 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         <div class="lx-text" data-source="textos" data-grupo="archivo"></div>
       </div>
     </div>
-    <div class="lx-card" id="fuentes">
-      <h3>Fuentes</h3>
-      <ul class="lx-sources">
-        <li><a href="https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php?tiprent=FP" target="_blank" rel="noopener">Superintendencia de Pensiones · rentabilidad real oficial</a></li>
-        <li><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-17161.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre de septiembre</a></li>
-        <li><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-16873.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre del año anterior</a></li>
-        <li><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/sistema-privado-de-pensiones-m" target="_blank" rel="noopener">BCRP · series del sistema privado de pensiones</a></li>
-        <li><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01271PM/html" target="_blank" rel="noopener">BCRP · IPC de Lima Metropolitana</a></li>
-        <li><a href="https://www.rankia.pe/blog/sistema-privado-pensiones/7487578-rentabilidad-afp-agosto-2026-habitat-fondo-3" target="_blank" rel="noopener">Rankia Perú · boletín de la SBS de agosto</a></li>
-        <li><a href="https://intranet2.sbs.gob.pe/estadistica/financiera/2026/Junio/SP-0003-jn2026.PDF" target="_blank" rel="noopener">SBS · boletín del sistema privado de pensiones, junio</a></li>
-        <li><a href="https://cdn01.sura.net.pe/integra/webapps/cercania/cms-lite/prod/resources/downloadable/rentabilidad/Rentabilidadesfondo3.pdf" target="_blank" rel="noopener">AFP Integra · rentabilidad por fondo</a></li>
-        <li><a href="https://www.biobiochile.cl/noticias/economia/actualidad-economica/2026/10/16/como-chile-y-peru-teniendo-afp-tan-similares-logran-resultados-distintos-en-los-fondos-de-pensiones.shtml" target="_blank" rel="noopener">BioBioChile · Chile y Perú, resultados distintos</a></li>
-        <li><a href="https://www.df.cl/senal-df/senales-financieras/la-apuesta-de-las-afp-que-gatillo-la-crisis-de-rentabilidad-del-fondo-e" target="_blank" rel="noopener">Diario Financiero · la apuesta que golpeó al Fondo E</a></li>
+  </section>
+  <!-- FUENTES -->
+  <section class="lx-page" id="fuentes" role="tabpanel" aria-labelledby="tab-fuentes" hidden>
+    <div class="lx-card" id="fuentes-chile">
+      <h2>Chile</h2>
+      <div class="lx-tablebox">
+        <table class="lx-table lx-fuentes" id="tabla-fuentes-chile">
+          <thead><tr><th>Fuente</th><th>Qué aporta</th><th>Tipo</th></tr></thead>
+          <tbody>
+          <tr><td><a href="https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php?tiprent=FP" target="_blank" rel="noopener">Superintendencia de Pensiones · rentabilidad real</a></td><td>Últimos 12 meses y promedios anuales desde 2002 y desde 1981</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-17161.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre de septiembre</a></td><td>Acumulado de enero a septiembre de 2026 y monto total en dólares</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.spensiones.cl/portal/institucional/594/w3-article-16873.html" target="_blank" rel="noopener">Superintendencia de Pensiones · cierre de 2025</a></td><td>Rentabilidad real del año 2025</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.df.cl/senal-df/senales-financieras/la-apuesta-de-las-afp-que-gatillo-la-crisis-de-rentabilidad-del-fondo-e" target="_blank" rel="noopener">Diario Financiero · la apuesta que golpeó al Fondo E</a></td><td>Efecto de los swaps de tasas en el Fondo E</td><td><span class="lx-tipo pre">Prensa</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="fuentes-peru">
+      <h2>Perú</h2>
+      <div class="lx-tablebox">
+        <table class="lx-table lx-fuentes" id="tabla-fuentes-peru">
+          <thead><tr><th>Fuente</th><th>Qué aporta</th><th>Tipo</th></tr></thead>
+          <tbody>
+          <tr><td><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/sistema-privado-de-pensiones-m" target="_blank" rel="noopener">BCRP · series del sistema privado de pensiones</a></td><td>Fondo 2 año a año, su promedio desde 2005 y monto total en dólares</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01271PM/html" target="_blank" rel="noopener">BCRP · IPC de Lima Metropolitana</a></td><td>Inflación usada para pasar de rentabilidad nominal a real</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://intranet2.sbs.gob.pe/estadistica/financiera/2026/Junio/SP-0003-jn2026.PDF" target="_blank" rel="noopener">SBS · boletín del sistema privado de pensiones, junio</a></td><td>Rentabilidad nominal anual y de largo plazo por fondo</td><td><span class="lx-tipo ofi">Oficial</span></td></tr>
+          <tr><td><a href="https://www.rankia.pe/blog/sistema-privado-pensiones/7487578-rentabilidad-afp-agosto-2026-habitat-fondo-3" target="_blank" rel="noopener">Rankia Perú · boletín de la SBS de agosto</a></td><td>Rentabilidad de 12 meses a agosto de 2026, nominal y real</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          <tr><td><a href="https://www.infobae.com/peru/2026/01/13/rentabilidad-de-tu-afp-consulta-cuanto-crecio-tu-dinero-en-2025-segun-el-fondo/" target="_blank" rel="noopener">Infobae · rentabilidad de las AFP en 2025</a></td><td>Rentabilidad nominal de 2025 del promedio del sistema</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          <tr><td><a href="https://cdn01.sura.net.pe/integra/webapps/cercania/cms-lite/prod/resources/downloadable/rentabilidad/Rentabilidadesfondo3.pdf" target="_blank" rel="noopener">AFP Integra · rentabilidad por fondo</a></td><td>Promedio desde la creación de los fondos 0, 1 y 3</td><td><span class="lx-tipo adm">Administradora</span></td></tr>
+          <tr><td><a href="https://www.biobiochile.cl/noticias/economia/actualidad-economica/2026/10/16/como-chile-y-peru-teniendo-afp-tan-similares-logran-resultados-distintos-en-los-fondos-de-pensiones.shtml" target="_blank" rel="noopener">BioBioChile · Chile y Perú, resultados distintos</a></td><td>Rentabilidad real de 12 meses a septiembre de 2026</td><td><span class="lx-tipo pre">Prensa con datos SBS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="lx-card" id="fuentes-calculos">
+      <h2>Cálculos propios</h2>
+      <ul class="lx-list">
+        <li>Rentabilidad real de Perú en 2025 y del Fondo 1 a agosto: rentabilidad nominal de la SBS descontando la inflación del IPC de Lima.</li>
+        <li>Promedio anual del Fondo 2 de Perú desde 2005: rentabilidades reales de 12 meses del BCRP encadenadas año a año.</li>
+        <li>Promedio de los fondos 0, 1 y 3 de Perú: datos nominales de AFP Integra deflactados con el IPC de Lima. No es el promedio del sistema.</li>
+        <li>Pares de fondos y diferencias entre países: restas simples entre las cifras de cada fondo.</li>
+        <li>Máximos de inversión en acciones: regulación general conocida de cada país, no verificada contra el régimen vigente.</li>
       </ul>
     </div>
   </section>
