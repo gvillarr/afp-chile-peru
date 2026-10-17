@@ -146,6 +146,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .lx-tipo.adm { color: var(--color-fg-muted); }
   .lx-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
   .lx-credito { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); text-align: center; }
+  #tabla-cobertura th:not(:first-child), #tabla-cobertura td:not(:first-child) { text-align: right; }
   .lx-cob { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
   .lx-cob-m { display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
   .lx-cob-l { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
@@ -950,6 +951,8 @@ window.dash = (() => {
     actual = id;
     pages.forEach((p) => { p.hidden = p.id !== id; });
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.page === id)));
+    const activa = tabs.find((t) => t.dataset.page === id);
+    if (activa) { try { activa.parentElement.scrollTo({ left: activa.offsetLeft - 16, behavior: 'smooth' }); } catch (e) { /* navegadores antiguos */ } }
     if (enlazar) dash.setLink(id);
     dibujarGraficos();
   };
