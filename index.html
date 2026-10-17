@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AFP Chile y Perú</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%271%27 y=%278%27 width=%274%27 height=%277%27 fill=%27%232563c9%27/%3E%3Crect x=%276%27 y=%274%27 width=%274%27 height=%2711%27 fill=%27%23d4483c%27/%3E%3Crect x=%2711%27 y=%271%27 width=%274%27 height=%2714%27 fill=%27%232563c9%27/%3E%3C/svg%3E">
 <style>
 :root {
   color-scheme: light;
@@ -37,6 +38,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body);
   padding-block: max(1.25rem, env(safe-area-inset-top, 0px)) 2.5rem; padding-inline: max(16px, 3vw); }
+[hidden] { display: none !important; }
 .dash-skeleton { color: transparent; }
 .lx-pie { margin-top: var(--cds-gap-lg); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
 </style>
@@ -73,7 +75,8 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
   .lx-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
   .lx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
-  .lx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr)); gap: var(--cds-gap-md); }
+  .lx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: var(--cds-gap-md); }
+  @media (max-width: 30rem) { .lx-kpi { padding: var(--cds-pad-md); } .lx-kpi-v { font-size: var(--cds-font-size-title); } }
   .lx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
   .lx-card-head { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: flex-start; justify-content: space-between; }
   .lx-card-head > div { min-width: 0; flex: 1 1 14rem; }
