@@ -635,7 +635,7 @@ window.dash = (() => {
       .replace(/·/g, ',')
       .replace(/\s+/g, ' ')
       .trim();
-    const trozos = (t) => (limpiar(t).match(/[^.!?;]+[.!?;]?/g) || []).map((s) => s.trim()).filter(Boolean);
+    const trozos = (t) => (limpiar(t).match(/\S[\s\S]*?(?:[.!?;](?=\s|$)|$)/g) || []).map((s) => s.trim()).filter(Boolean);
     const marcar = (btn, on) => {
       btn.setAttribute('aria-pressed', String(on));
       const t = btn.querySelector('.lx-oir-t');
@@ -997,7 +997,7 @@ window.dash = (() => {
   };
 
   // ---------- selector de periodo ----------
-  const seg = document.querySelectorAll('#comparativo .lx-seg button');
+  const seg = document.querySelectorAll('#comparativo .lx-seg button[data-mode]');
   seg.forEach((b) => b.addEventListener('click', () => {
     modo = b.dataset.mode;
     seg.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
@@ -1041,7 +1041,7 @@ window.dash = (() => {
     const todos = res.rows.filter((d) => !d.head && d.v !== null);
     const mejor = todos.reduce((a, b) => (b.v > a.v ? b : a));
     const peor = todos.reduce((a, b) => (b.v < a.v ? b : a));
-    partes.push('En resumen, el mejor resultado es el de ' + nombreFondo(mejor) + ', con ' + pct(mejor.v) + ', y el más bajo es el de ' + nombreFondo(peor) + ', con ' + pct(peor.v) + '.');
+    partes.push('En resumen, el mejor resultado lo tiene ' + nombreFondo(mejor) + ', con ' + pct(mejor.v) + ', y el más bajo, ' + nombreFondo(peor) + ', con ' + pct(peor.v) + '.');
     if (pares) partes.push('De los ' + pares + ' pares comparables, Perú rinde más en ' + peruGana + '.');
     if (m === MODOS.hist) partes.push('Ten en cuenta que Chile se mide desde 2002 y Perú desde 2005, o desde que se creó cada fondo.');
     return partes.join(' ');
@@ -1071,9 +1071,9 @@ window.dash = (() => {
     if (!c || !p) return '';
     const veces = num(c.monto_musd) / num(p.monto_musd);
     return 'Este gráfico compara el tamaño de los dos sistemas, medido en dólares. ' +
-      'Chile administra ' + nf0.format(num(c.monto_musd)) + ' millones de dólares, a ' + String(c.corte).toLowerCase() + '. ' +
-      'Perú administra ' + nf0.format(num(p.monto_musd)) + ' millones de dólares, a ' + String(p.corte).toLowerCase() + '. ' +
-      'El sistema chileno es unas ' + nf2.format(veces).replace(/,?0+$/, '') + ' veces más grande.';
+      'Chile administra ' + nf0.format(num(c.monto_musd)) + ' millones de dólares, a ' + String(c.corte).toLowerCase().replace(/ (\d{4})/, ' de $1') + '. ' +
+      'Perú administra ' + nf0.format(num(p.monto_musd)) + ' millones de dólares, a ' + String(p.corte).toLowerCase().replace(/ (\d{4})/, ' de $1') + '. ' +
+      'El sistema chileno es unas ' + new Intl.NumberFormat('es-CL', { maximumFractionDigits: 1 }).format(veces) + ' veces más grande.';
   };
   const EXPLICAR = {
     cmp: () => explicarNueve(MODOS[modo]),
